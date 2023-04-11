@@ -44,3 +44,7 @@ def right (players) : #décaller vers la
 def left (players): #
     players.x-=30
     return players 
+
+if __name__=="__main__":
+    players = create("ennemi.txt",50,30)
+    show(players)

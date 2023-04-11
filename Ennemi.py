@@ -15,20 +15,32 @@ def create (img,x,y):
     ennemi.x= x
     ennemi.y=y
     look = open (img,"r")
-    ennemi.look = look.read()
+    ennemi.look = look.read().splitlines()
     look.close()
     return ennemi
     
 def show(ennemi):
-    #se placer à la position du personnage 
-    x=str(int(ennemi.x))
-    y=str(int(ennemi.y))
-    txt="\033["+y+";"+x+"H"
-    sys.stdout.write(txt)
+    #separer l'ennemi en ligne 
+    t= ennemi.look
     
-    #afficher le personnage 
-    sys.stdout.write(ennemi.look)
+    #afficher le personnage ligne par ligne 
+    for i in range(len(ennemi.look)):
+        x=str(int(ennemi.x))
+        y=str(int(ennemi.y)+i)
+        txt="\033["+y+";"+x+"H" #placer le curseur 
+        sys.stdout.write(txt)#se placer à la position du personnage 
 
-    if __name__=="__main__":
-        players = create()
-        
+
+
+        sys.stdout.write(t[i]) #afficher la ligne 
+    
+    
+    
+      
+    
+
+if __name__=="__main__":
+    ennemi = create("ennemi.txt",10,10)
+    show(ennemi)
+    
+    
