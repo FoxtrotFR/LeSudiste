@@ -20,8 +20,6 @@ def create (img,x,y):
     return ennemi
     
 def show(ennemi):
-    #separer l'ennemi en ligne 
-    t= ennemi.look
     
     #afficher le personnage ligne par ligne 
     for i in range(len(ennemi.look)):
@@ -32,13 +30,13 @@ def show(ennemi):
 
 
 
-        sys.stdout.write(t[i]) #afficher la ligne 
+        sys.stdout.write(ennemi.look[i]) #afficher la ligne 
     
     
     
       
     
-#test valide
+#test presque validé
 #if __name__=="__main__":
 #    ennemi = create("ennemi.txt",10,10)
 #    show(ennemi)

@@ -27,8 +27,8 @@ def show (frites,etat): #etat varie en focntion de la gravité (voir liste frite
     sys.stdout.write(frites.look[etat]) #afficher la fritte
 
 
-#test
-if __name__=="__main__":
-    frites = create(10,10,0)
-    show(frites,1)
+#test validé
+#if __name__=="__main__":
+#    frites = create(10,10,0)
+#    show(frites,1)
     

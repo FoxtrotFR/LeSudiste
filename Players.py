@@ -49,7 +49,8 @@ def left (players): #
     players.x-=30
     return players 
 
-# test validé 
+# test presque validé
+#test des fonction autre que show et create non fait
 #if __name__=="__main__":
 #   players = create("joueur.txt",10,10)
 #   show(players)
