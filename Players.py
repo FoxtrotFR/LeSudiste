@@ -14,21 +14,25 @@ def create(img, x, y):
     players.x = x
     players.y = y
     look = open(img, "r")
-    players.look = look.read()
+    players.look = look.read().splitlines()
     look.close()
     return players
     
     
-def show (players):
-    #se placer à la position du personnage 
-    x=str(int(players.x))
-    y=str(int(players.y))
-    txt="\033["+y+";"+x+"H"
-    sys.stdout.write(txt)
+def show(players):
+    #separer l'ennemi en ligne 
+    t= players.look
     
-    #afficher le personnage 
-    sys.stdout.write(players.look)
-    
+    #afficher le personnage ligne par ligne 
+    for i in range(len(players.look)):
+        x=str(int(players.x))
+        y=str(int(players.y)+i)
+        txt="\033["+y+";"+x+"H" #placer le curseur 
+        sys.stdout.write(txt)#se placer à la position du personnage 
+
+
+
+        sys.stdout.write(t[i]) #afficher la ligne 
 
 def getheight(players) : #renvoyer la hauteur du perso
     return players.y
@@ -45,6 +49,7 @@ def left (players): #
     players.x-=30
     return players 
 
-if __name__=="__main__":
-    players = create("ennemi.txt",50,30)
-    show(players)
+# test validé 
+#if __name__=="__main__":
+#   players = create("joueur.txt",10,10)
+#   show(players)

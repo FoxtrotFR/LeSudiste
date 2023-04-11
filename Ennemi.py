@@ -38,9 +38,9 @@ def show(ennemi):
     
       
     
-
-if __name__=="__main__":
-    ennemi = create("ennemi.txt",10,10)
-    show(ennemi)
+#test valide
+#if __name__=="__main__":
+#    ennemi = create("ennemi.txt",10,10)
+#    show(ennemi)
     
     
