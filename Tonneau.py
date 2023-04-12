@@ -34,6 +34,9 @@ def show(tonneau):
 
         sys.stdout.write(tonneau.look[i]) #afficher la ligne 
 
+def getheight(tonneau): #renvoyer la hauteur du tonneau
+    return tonneau.y
+
 #test validé
 if __name__=="__main__":
     tonneau = create(10,10,"tonneau.txt")
