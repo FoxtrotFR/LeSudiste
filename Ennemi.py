@@ -36,7 +36,7 @@ def show(ennemi):
     
       
     
-#test presque validé
+#test validé
 #if __name__=="__main__":
 #    ennemi = create("ennemi.txt",10,10)
 #    show(ennemi)

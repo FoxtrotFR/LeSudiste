@@ -4,7 +4,7 @@ Created on Tue Apr 11 10:00:31 2023
 
 @author: Maxime
 """
-
+import time
 import sys 
 
 class Players : pass
@@ -20,19 +20,14 @@ def create(img, x, y):
     
     
 def show(players):
-    #separer l'ennemi en ligne 
-    t= players.look
-    
     #afficher le personnage ligne par ligne 
     for i in range(len(players.look)):
         x=str(int(players.x))
         y=str(int(players.y)+i)
         txt="\033["+y+";"+x+"H" #placer le curseur 
-        sys.stdout.write(txt)#se placer à la position du personnage 
+        sys.stdout.write(txt)   #se placer a la position du personnage 
 
-
-
-        sys.stdout.write(t[i]) #afficher la ligne 
+        sys.stdout.write(players.look[i]) #afficher la ligne 
 
 def getheight(players) : #renvoyer la hauteur du perso
     return players.y
@@ -41,16 +36,25 @@ def up(players): #sauter en hauteur
     players.y+=30
     return players
     
-def right (players) : #décaller vers la 
-    players.x+=30
+def right (players) : #decaller vers la droite
+    players.x+=10
     return players 
 
-def left (players): #
-    players.x-=30
-    return players 
+def left (players): #decaller le player vers la gauche 
+    players.x-=10   
+    return players  
 
-# test presque validé
-#test des fonction autre que show et create non fait
-#if __name__=="__main__":
-#   players = create("joueur.txt",10,10)
-#   show(players)
+#test validé
+#seul probleme, lorsque je met des time.sleep entre les show il show tout uniquement a la fin(et pas en continue)
+if __name__=="__main__":
+   players = create("joueur.txt",10,10)
+   show(players)
+   right(players)
+   right(players)
+   show(players)
+   left(players)
+   
+   show(players)
+   up(players)
+   show(players)
+   

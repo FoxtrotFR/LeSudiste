@@ -31,4 +31,3 @@ def show (frites,etat): #etat varie en focntion de la gravité (voir liste frite
 #if __name__=="__main__":
 #    frites = create(10,10,0)
 #    show(frites,1)
-    
