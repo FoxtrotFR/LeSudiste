@@ -49,12 +49,15 @@ def left (players): #decaller le player vers la gauche
 if __name__=="__main__":
    players = create("joueur.txt",10,10)
    show(players)
+   time.spleep(1)
    right(players)
    right(players)
    show(players)
+   time.sleep(1)
    left(players)
    
    show(players)
+   time.sleep(1)
    up(players)
    show(players)
    

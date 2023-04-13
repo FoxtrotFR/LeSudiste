@@ -29,6 +29,12 @@ def show(plateforme):
 
     sys.stdout.write(plateforme.look) #afficher la fritte
 
+def getlenth (plateforme): #renvoyer la longueur d'une plateforme 
+    return plateforme.lenth
+
+def getheight(plateforme): #renvoyer la hauteur d'une plateforme
+    return plateforme.y 
+
 #test validé
 if __name__=="__main__":
     plateforme = create(40,10,10)
