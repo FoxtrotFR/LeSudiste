@@ -1,12 +1,12 @@
-Regles : 
+Règles : 
 
     -Appuyer sur espace pour sauter
     -Q pour aller à gauche 
     -D pour aller à droite
 
-    -Eviter de tomner dans les trous
+    -Eviter de tomber dans les trous
     -Eiter les frites et les tonneaux 
 
     -Attention au bout d'un certain score la gravité change de sens 
 
-    -Bonne chance 
+    -Retrouvez le pastis!!!
