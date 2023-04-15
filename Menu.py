@@ -11,7 +11,7 @@ import Game
 import sys
 
 #creer le menu
-def create (background, scoreboard,regles="regles.txt"):
+def create ( scoreboard,regles="regles.txt"):
     menu = Menu()
     menu.name = "LE SUDISTE"
     menu.name_y=5
@@ -22,11 +22,6 @@ def create (background, scoreboard,regles="regles.txt"):
     menu.jouer_y=15
 
     menu.scoreboard = scoreboard
-
-    #ouvrir le background 
-    bg=open(background,"r")
-    menu.background = bg.read().splitlines()
-    bg.close()
 
     #ouvrir les regles pour les afficher 
     regle=open(regles,"r")
@@ -40,7 +35,7 @@ def create (background, scoreboard,regles="regles.txt"):
 
 def show (menu):
     #afficher le fond
-    Game.showbackground(menu)  #153 colones et 41 lignes (dont 3 lignes au dessu sans rien)
+    Game.showbackground()  #153 colones et 41 lignes (dont 3 lignes au dessu sans rien)
 
     #Afficher le name à l'endroit donné 
     x=str(menu.name_x)
@@ -75,6 +70,6 @@ def show (menu):
 
 #test 
 if __name__=="__main__":
-   menu = create("background.txt",0)
+   menu = create(0)
    show(menu)
     
