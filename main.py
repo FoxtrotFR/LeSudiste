@@ -105,6 +105,7 @@ def gameover (): # en cas de defaite relancer le jeu au menu
 	game.start=0
 	players.y=10
 	game.score = 0
+	game.speed=1
 	
 
 
