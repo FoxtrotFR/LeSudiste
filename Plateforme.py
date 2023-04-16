@@ -8,34 +8,36 @@ Created on Tue Apr 11 10:58:47 2023
 class Plateforme : pass
 
 import sys
+import random
 
-def create (x,y,lenth): #ceer le type plateforme
+def create (lenth,y): #ceer le type plateforme
     plateforme = Plateforme()
-    plateforme.x = x
-    plateforme.y = y
+    plateforme.x = 152
+    plateforme.y =y
     plateforme.lenth=lenth
     plateforme.look = ''
+    for i in range (plateforme.lenth):
+        plateforme.look+='_'
+    
     
     return plateforme
 
-def show(plateforme):
-    for i in range (plateforme.lenth):
-        plateforme.look+='_'
+def show(listeplateforme,nbr):
 
-    x=str(int(plateforme.x))
-    y=str(int(plateforme.y))
+    x=str(int(152))
+    y=str(int(listeplateforme[nbr][1]))
     txt="\033["+y+";"+x+"H" #placer le curseur 
     sys.stdout.write(txt)#se placer à la position du personnage 
 
-    sys.stdout.write(plateforme.look) #afficher la fritte
+    sys.stdout.write(listeplateforme[nbr][0]) #afficher la fritte
 
 def getlenth (plateforme): #renvoyer la longueur d'une plateforme 
+
     return plateforme.lenth
 
 def getheight(plateforme): #renvoyer la hauteur d'une plateforme
     return plateforme.y 
 
-#test validé
-if __name__=="__main__":
-    plateforme = create(40,10,10)
-    show(plateforme)
+def listeplat (listeplateforme,plateforme):
+    listeplateforme.append([plateforme.look,plateforme.x,plateforme.y])
+    return listeplateforme

@@ -17,9 +17,10 @@ import Players
 import Game
 import Menu
 import Ennemi
+import Plateforme
 
 timeStep= None
-speed=None 
+speed= None 
 gravite = None 
 score = None 
 
@@ -37,6 +38,8 @@ def init():
     game = Game.create(speed,score)
     players=Players.create(40,10,gravite,timeStep)
     ennemi = Ennemi.create (144,9)
+    plateforme = Plateforme.creathe (50,30)
+    listeplateforme = Plateforme.listeplat(listeplateforme,plateforme)
 
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
@@ -54,7 +57,7 @@ def interact():
 		elif c=='\n' : # si la touche entré est appuyé
 			game.start=1
 		elif c==' ' : # si la touche entré est appuyé
-			players.memoireup=20
+			players.memoireup=30
 			
 		
 def isData():
