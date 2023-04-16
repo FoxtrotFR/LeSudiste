@@ -19,16 +19,23 @@ import Menu
 import Ennemi
 
 timeStep= None
+speed=None 
+gravite = None 
+score = None 
 
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi
+    global timeStep, menu, game, players, ennemi, speed, gravite, score
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
+    speed = 1
+    gravite = 10
+    score = 0
+
     menu=Menu.create(0)
-    game = Game.create()
-    players=Players.create(40,30,10,timeStep)
+    game = Game.create(speed,score)
+    players=Players.create(40,10,gravite,timeStep)
     ennemi = Ennemi.create (144,9)
 
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
@@ -47,7 +54,7 @@ def interact():
 		elif c=='\n' : # si la touche entré est appuyé
 			game.start=1
 		elif c==' ' : # si la touche entré est appuyé
-			players.memoireup=30
+			players.memoireup=20
 			
 		
 def isData():
@@ -55,12 +62,14 @@ def isData():
 	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def run():
-	global timeStep,menu
+	global timeStep, game
 	#Boucle de simulation	
 	while 1:
 		interact()
 		move()
-		show()	
+		show()
+		Game.speedup(game)
+		Game.scoreup(game)	
 		time.sleep(timeStep)
 
 
@@ -79,11 +88,25 @@ def show ():
 def move ():
 	global players
 
-	#if players.memoireup==0:
-	#	Players.playersdown(players) #apliquer la gravité
-	if players.memoireup!=0:
+	if players.memoireup==0: #apliquer la gravité
+		Players.playersdown(players) 
+	elif players.memoireup!=0: #faire le saut du player
 		Players.up(players)
 		players.memoireup-=1
+
+	#gerer les collision du player
+	if int(players.y)+3== 41 : #collision avec le sol
+		gameover()
+	elif int(players.y)==8 : #collision avec le  plafond 
+		players.memoireup=0
+		
+def gameover (): # en cas de defaite relancer le jeu au menu
+	global players, game, score 
+	game.start=0
+	players.y=10
+	game.score = 0
+	
+
 
 	
 

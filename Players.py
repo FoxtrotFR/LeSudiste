@@ -9,12 +9,12 @@ import sys
 
 class Players : pass
 
-def create( x, y,speed,dt):
+def create( x, y,gravite,dt):
     players = Players()
     players.x = x
     players.y = y
     players.dt= dt
-    players.speed=speed
+    players.gravite=gravite
     look = open("joueur.txt", "r")
     players.look = look.read().splitlines()
     look.close()
@@ -37,7 +37,7 @@ def getheight(players) : #renvoyer la hauteur du perso
 
 def up(players): #sauter en hauteur 
     y=players.y
-    players.y= y-players.speed*players.dt
+    players.y= y-players.gravite*players.dt
     players.memoireup -=1
     return players.y
     
@@ -51,23 +51,8 @@ def left (players): #decaller le player vers la gauche
 
 def playersdown (players):
     y= players.y
-    players.y= y+players.speed*players.dt
+    players.y= y+(players.gravite*players.dt/4)
     return players.y
 
-#test validé
-#seul probleme, lorsque je met des time.sleep entre les show il show tout uniquement a la fin(et pas en continue)
-if __name__=="__main__":
-   players = create(10,10,10,0.1)
-   show(players)
-   time.spleep(1)
-   right(players)
-   right(players)
-   show(players)
-   time.sleep(1)
-   left(players)
-   
-   show(players)
-   time.sleep(1)
-   up(players)
-   show(players)
+
    

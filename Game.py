@@ -7,6 +7,8 @@ Created on Tue Apr 11 10:58:47 2023
 
 class Game : pass
 
+import Players
+
 import sys
 import os
 
@@ -14,16 +16,16 @@ rows, columns = os.popen('stty size', 'r').read().split()
 
 
 
-def create ():
+def create (speed,score):
     game = Game()
 
     game.name = "Retrouvez le pastis"
     game.name_x = 60
     game.name_y = 5
 
-    game.score = 0
+    game.score = score
     game.start =0
-    
+    game.speed=speed
     
     
     return game
@@ -48,7 +50,7 @@ def showbackground(): #afficher le fond
 
 def showscore (game):
 
-    showbackground()
+    showbackground()  #153 colones et 41 lignes (dont 3 lignes au dessu sans rien)
     #Afficher le titre à l'endroit donné 
     x=str(game.name_x)
     y=str(game.name_y)
@@ -74,7 +76,13 @@ def showscore (game):
     y=str(6)
     txt="\033["+y+";"+x+"H" #placer le curseur 
     sys.stdout.write(txt)   #se placer a la position du score 
-    sys.stdout.write(str(game.score)) #afficher
+    sys.stdout.write(str(int(game.score))) #afficher
+
+def scoreup (game):
+    game.score+=(game.speed*0.1)
+
+def speedup(game):
+    game.speed+=0.01
 
 
 
