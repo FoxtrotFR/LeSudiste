@@ -16,6 +16,13 @@ rows, columns = os.popen('stty size', 'r').read().split()
 
 def create ():
     game = Game()
+
+    game.name = "Retrouvez le pastis"
+    game.name_x = 60
+    game.name_y = 5
+
+    game.score = 0
+    game.start =0
     
     
     
@@ -39,8 +46,35 @@ def showbackground(): #afficher le fond
 
             sys.stdout.write(background[i]) #afficher la ligne 
 
+def showscore (game):
+
+    showbackground()
+    #Afficher le titre à l'endroit donné 
+    x=str(game.name_x)
+    y=str(game.name_y)
+    txt="\033["+y+";"+x+"H" #placer le curseur 
+    sys.stdout.write(txt)   #se placer a la position du titre 
+    sys.stdout.write(game.name) #afficher le titre
+
+    #Affichage du score 
+    for i in range (5): 
+        x=str(130)
+        y=str(int(3)+i)
+        txt="\033["+y+";"+x+"H" #placer le curseur 
+        sys.stdout.write(txt)   #se placer a la position de la bare  
+        sys.stdout.write("|") #afficher la barre
+
+    x=str(138)  #afficher le mot "score"
+    y=str(4)
+    txt="\033["+y+";"+x+"H" #placer le curseur 
+    sys.stdout.write(txt)   #se placer a la position 
+    sys.stdout.write("score :") #afficher 
+
+    x=str(141) #afficher le score 
+    y=str(6)
+    txt="\033["+y+";"+x+"H" #placer le curseur 
+    sys.stdout.write(txt)   #se placer a la position du score 
+    sys.stdout.write(str(game.score)) #afficher
 
 
-if __name__=="__main__":
-   game = create()
-   showbackground()
+

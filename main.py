@@ -10,36 +10,45 @@ import sys
 import time
 import select
 import tty
+import termios
 
 import Frame 
 import Players
 import Game
 import Menu
+import Ennemi
 
 timeStep= None
 
+old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global animat, timeStep,menu
+    global timeStep, menu, game, players, ennemi
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     menu=Menu.create(0)
+    game = Game.create()
+    players=Players.create(40,30,10,timeStep)
+    ennemi = Ennemi.create (144,9)
 
-    tty.setcbreak(sys.stdin.fileno()) #modofier le fct du terminal pr recupérer les interactions clavier 
+    tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
     
 
 def interact():
-	global  timeStep
+	global  timeStep, game, players
 	#gestion des evenement clavier
 	
 	#si une touche est appuyee
 	if isData():
 		c = sys.stdin.read(1)
-		#if c == 'm':         
-		#	quitGame()
-		if c=='m' :
-			Game.showbackground()
+		if c == 'm':         
+			quitGame()
+		elif c=='\n' : # si la touche entré est appuyé
+			game.start=1
+		elif c==' ' : # si la touche entré est appuyé
+			players.memoireup=30
+			
 		
 def isData():
 	#recuperation evenement clavier
@@ -47,12 +56,50 @@ def isData():
 
 def run():
 	global timeStep,menu
-	Menu.show(menu)
-	sys.stdout.flush()
 	#Boucle de simulation	
 	while 1:
-		interact()	
+		interact()
+		move()
+		show()	
 		time.sleep(timeStep)
+
+
+def show ():
+	global ennemi,players, game, menu
+	if game.start == 0 :
+		Menu.show(menu)
+		sys.stdout.flush() # vider la mémoire tampon
+
+	if game.start==1:
+		Game.showscore(game)
+		Players.show(players)
+		Ennemi.show(ennemi)
+		sys.stdout.flush() # vider la mémoire tampon
+
+def move ():
+	global players
+
+	#if players.memoireup==0:
+	#	Players.playersdown(players) #apliquer la gravité
+	if players.memoireup!=0:
+		Players.up(players)
+		players.memoireup-=1
+
+	
+
+
+def quitGame():	
+	
+	#restoration parametres terminal
+	global old_settings
+	
+	
+	sys.stdout.write("\033[37m") #couleur ecriture en blanc
+	sys.stdout.write("\033[40m") # couleur du fond noir 
+	
+	termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
+	sys.exit()
+	
 
 ##################################
 #les test 

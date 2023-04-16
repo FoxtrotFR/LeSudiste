@@ -10,11 +10,11 @@ class Ennemi : pass
 import sys 
 
 
-def create (img,x,y):
+def create (x,y):
     ennemi = Ennemi()
     ennemi.x= x
     ennemi.y=y
-    look = open (img,"r")
+    look = open ("ennemi.txt","r")
     ennemi.look = look.read().splitlines()
     look.close()
     return ennemi

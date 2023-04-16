@@ -9,4 +9,6 @@ Règles :
 
     -Attention au bout d'un certain score la gravité change de sens 
 
+    -Appuyer sur la touche m pour quitter le jeu
+
     -Retrouvez le pastis!!!
