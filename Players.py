@@ -15,6 +15,7 @@ def create( x, y,gravite,dt):
     players.y = y
     players.dt= dt
     players.gravite=gravite
+    players.plateforme = 0
     look = open("joueur.txt", "r")
     players.look = look.read().splitlines()
     look.close()
@@ -51,7 +52,7 @@ def left (players): #decaller le player vers la gauche
 
 def playersdown (players):
     y= players.y
-    players.y= y+(players.gravite*players.dt/4)
+    players.y= y+(players.gravite*players.dt/2)
     return players.y
 
 

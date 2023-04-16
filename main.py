@@ -12,7 +12,7 @@ import select
 import tty
 import termios
 
-import Frame 
+import frame 
 import Players
 import Game
 import Menu
@@ -27,18 +27,19 @@ score = None
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi, speed, gravite, score
+    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 1
     gravite = 10
     score = 0
+    listeplateforme=[]
 
     menu=Menu.create(0)
     game = Game.create(speed,score)
-    players=Players.create(40,10,gravite,timeStep)
+    players = Players.create(40,10,gravite,timeStep)
     ennemi = Ennemi.create (144,9)
-    plateforme = Plateforme.creathe (50,30)
+    plateforme = Plateforme.create(50,20,35)
     listeplateforme = Plateforme.listeplat(listeplateforme,plateforme)
 
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
@@ -77,7 +78,7 @@ def run():
 
 
 def show ():
-	global ennemi,players, game, menu
+	global ennemi,players, game, menu,listeplateforme
 	if game.start == 0 :
 		Menu.show(menu)
 		sys.stdout.flush() # vider la mémoire tampon
@@ -86,22 +87,32 @@ def show ():
 		Game.showscore(game)
 		Players.show(players)
 		Ennemi.show(ennemi)
+		Plateforme.show(listeplateforme,0)
 		sys.stdout.flush() # vider la mémoire tampon
 
+
+
 def move ():
-	global players
+	global players, listeplateforme
 
-	if players.memoireup==0: #apliquer la gravité
-		Players.playersdown(players) 
-	elif players.memoireup!=0: #faire le saut du player
-		Players.up(players)
-		players.memoireup-=1
-
+	players.plateforme=0
 	#gerer les collision du player
 	if int(players.y)+3== 41 : #collision avec le sol
 		gameover()
 	elif int(players.y)==8 : #collision avec le  plafond 
 		players.memoireup=0
+	for i in listeplateforme :
+		for a in range (3):
+			if int(players.y)+3 == i[2] and i[1]<=int(players.x)+a <= i[1]+len(i[0]): #ne plus appliquer la gravité au contact d'une plateforme
+				players.plateforme=-1
+
+	if players.plateforme==0 and players.memoireup==0: #apliquer la gravité
+		Players.playersdown(players) 
+	elif players.memoireup!=0: #faire le saut du player
+		Players.up(players)
+		players.memoireup-=1
+
+	
 		
 def gameover (): # en cas de defaite relancer le jeu au menu
 	global players, game, score 

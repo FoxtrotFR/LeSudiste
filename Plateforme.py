@@ -10,9 +10,9 @@ class Plateforme : pass
 import sys
 import random
 
-def create (lenth,y): #ceer le type plateforme
+def create (lenth,x,y): #ceer le type plateforme
     plateforme = Plateforme()
-    plateforme.x = 152
+    plateforme.x = x
     plateforme.y =y
     plateforme.lenth=lenth
     plateforme.look = ''
@@ -24,12 +24,12 @@ def create (lenth,y): #ceer le type plateforme
 
 def show(listeplateforme,nbr):
 
-    x=str(int(152))
-    y=str(int(listeplateforme[nbr][1]))
+    x=str(int(listeplateforme[nbr][1]))
+    y=str(int(listeplateforme[nbr][2]))
     txt="\033["+y+";"+x+"H" #placer le curseur 
-    sys.stdout.write(txt)#se placer à la position du personnage 
+    sys.stdout.write(txt)#se placer à la position de la plateforme
 
-    sys.stdout.write(listeplateforme[nbr][0]) #afficher la fritte
+    sys.stdout.write(listeplateforme[nbr][0]) #afficher la plateforme
 
 def getlenth (plateforme): #renvoyer la longueur d'une plateforme 
 
