@@ -52,7 +52,7 @@ def left (players): #decaller le player vers la gauche
 
 def playersdown (players):
     y= players.y
-    players.y= y+(players.gravite*players.dt/2)
+    players.y= y+(players.gravite*players.dt)
     return players.y
 
 

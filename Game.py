@@ -82,6 +82,6 @@ def scoreup (game):
     game.score+=(game.speed*0.1)
 
 def speedup(game):
-    game.speed+=0.01
+    game.speed+=0.1
 
 

@@ -30,7 +30,7 @@ def init():
     global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
-    speed = 1
+    speed = 10	
     gravite = 10
     score = 0
     listeplateforme=[]
@@ -39,8 +39,8 @@ def init():
     game = Game.create(speed,score)
     players = Players.create(40,10,gravite,timeStep)
     ennemi = Ennemi.create (144,9)
-    plateforme = Plateforme.create(50,20,35)
-    listeplateforme = Plateforme.listeplat(listeplateforme,plateforme)
+    listeplateforme = [['______________________________________________________________________',10,25,70,0],['______________________________________________________________________',70,35,70,0]]
+    
 
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
@@ -87,23 +87,44 @@ def show ():
 		Game.showscore(game)
 		Players.show(players)
 		Ennemi.show(ennemi)
-		Plateforme.show(listeplateforme,0)
+		for i in range (len(listeplateforme)):
+			if 0<=listeplateforme[i][1] and listeplateforme[i][1]<154:
+				Plateforme.show(listeplateforme,i)
 		sys.stdout.flush() # vider la mémoire tampon
 
 
 
 def move ():
-	global players, listeplateforme
+	global players, listeplateforme, timeStep, speed
+	#gerer creation de plateforme 
+	if len(listeplateforme)<3:
+		plateforme = Plateforme.create()
+		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
+		
 
-	players.plateforme=0
+	#gerer appartition et disparition de plateformes 
+	for b in range (len(listeplateforme)) :	
+		if int(listeplateforme[b][1])==0: #regarde si la plateforme arrive en bout de course et on la fait disparaitre petit à petit 
+			
+			listeplateforme[b]=Plateforme.reduire(listeplateforme, b)
+			if len(listeplateforme[b][0])==0: #on la supprime quand il y a plus rien dedans 
+
+				del listeplateforme[b]  
+		else :
+			
+			listeplateforme[b]=Plateforme.augmenter(listeplateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct auglenter)
+			
+
+	
 	#gerer les collision du player
+	players.plateforme=0 
 	if int(players.y)+3== 41 : #collision avec le sol
 		gameover()
 	elif int(players.y)==8 : #collision avec le  plafond 
 		players.memoireup=0
 	for i in listeplateforme :
 		for a in range (3):
-			if int(players.y)+3 == i[2] and i[1]<=int(players.x)+a <= i[1]+len(i[0]): #ne plus appliquer la gravité au contact d'une plateforme
+			if int(players.y)+3 == int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])): #ne plus appliquer la gravité au contact d'une plateforme
 				players.plateforme=-1
 
 	if players.plateforme==0 and players.memoireup==0: #apliquer la gravité
@@ -111,6 +132,8 @@ def move ():
 	elif players.memoireup!=0: #faire le saut du player
 		Players.up(players)
 		players.memoireup-=1
+	Plateforme.move(listeplateforme,speed,timeStep) #bouger les plateformes
+	
 
 	
 		
