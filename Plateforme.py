@@ -17,6 +17,7 @@ def create (): #ceer le type plateforme
     plateforme.lenth=40
     plateforme.look = ''
     plateforme.taille =0
+
     
 
     return plateforme
@@ -38,7 +39,7 @@ def getheight(plateforme): #renvoyer la hauteur d'une plateforme
     return plateforme.y 
 
 def listeplat (listeplateforme,plateforme):
-    listeplateforme.append(['',plateforme.x,plateforme.y,plateforme.lenth,plateforme.taille,])
+    listeplateforme.append(['',plateforme.x,plateforme.y,plateforme.lenth,plateforme.taille])
     return listeplateforme
 
 def move(listeplateforme,speed,dt):

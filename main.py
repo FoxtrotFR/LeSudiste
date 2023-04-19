@@ -101,19 +101,19 @@ def move ():
 		plateforme = Plateforme.create()
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
 		
-
+	delete = 0
+	position =0
 	#gerer appartition et disparition de plateformes 
 	for b in range (len(listeplateforme)) :	
 		if int(listeplateforme[b][1])==0: #regarde si la plateforme arrive en bout de course et on la fait disparaitre petit à petit 
-			
 			listeplateforme[b]=Plateforme.reduire(listeplateforme, b)
-			if len(listeplateforme[b][0])==0: #on la supprime quand il y a plus rien dedans 
-
-				del listeplateforme[b]  
-		else :
-			
+			if len(listeplateforme[b][0])==0: #on la supprime quand il y a plus rien dedans
+				delete = 1
+				position =b
+		else :	
 			listeplateforme[b]=Plateforme.augmenter(listeplateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct auglenter)
-			
+	if delete ==1 :
+		del listeplateforme[position]		
 
 	
 	#gerer les collision du player
