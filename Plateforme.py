@@ -14,7 +14,7 @@ def create (): #ceer le type plateforme
     plateforme = Plateforme()
     plateforme.x = 153
     plateforme.y =random.randint (32,39)  #position en y de la plateforme 
-    plateforme.lenth=random.randint (40,60) #taille total de la plateforme 
+    plateforme.lenth=random.randint (50,70) #taille total de la plateforme 
     plateforme.look = ''
     plateforme.taille =0 #taille actuel de plateforme 
     plateforme.trou = random.randint(5,14) #taille de trou qui suit la plateforme 
@@ -46,28 +46,18 @@ def move(listeplateforme,speed,dt):
 
 def reduire (listeplateforme,nbr,speed,dt) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse
-    listeplateforme[nbr][4]=listeplateforme[nbr][4]-speed*dt
-    if int (listeplateforme[nbr][4])<listeplateforme[nbr][3]:
-        rajout =int (listeplateforme[nbr][4]- len(listeplateforme[nbr][0]))
-        listeplateforme[nbr][0]=''
-        for i in range (int (listeplateforme[nbr][4])):
-            listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
-        delete = listeplateforme[nbr][3]- int (listeplateforme[nbr][4])
-        listeplateforme[nbr][3]= int (listeplateforme[nbr][4])
-        listeplateforme[nbr][1]+= delete 
+    listeplateforme[nbr][3]+=listeplateforme[nbr][1]
+    listeplateforme[nbr][0]=''
+    for i in range (int(listeplateforme[nbr][3])):
+        listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
     
+    listeplateforme[nbr][1]=0
     
-    #listeplateforme[nbr][3]-=1
-    #listeplateforme[nbr][0]=''
-    #for i in range (listeplateforme[nbr][3]):
-     #   listeplateforme[nbr][0]=listeplateforme[nbr][0]+ '_' 
-        #modifier la valeur de x
-    #listeplateforme[nbr][1]+=1 
     return listeplateforme[nbr]
     
 
 def augmenter(listeplateforme, nbr,speed, dt):
-    if int(listeplateforme[nbr][4])<=listeplateforme[nbr][3]:
+    if int(listeplateforme[nbr][4])<=listeplateforme[nbr][3]: #4: plateforme.taille et 3 : plateforme.lenth
         listeplateforme[nbr][4]+= speed*dt
         rajout =int (listeplateforme[nbr][4]- len(listeplateforme[nbr][0]))
         for i in range (rajout):
