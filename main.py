@@ -23,11 +23,12 @@ timeStep= None
 speed= None 
 gravite = None 
 score = None 
+compteur = None 
 
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme
+    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, compteur 
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
@@ -39,8 +40,8 @@ def init():
     game = Game.create(speed,score)
     players = Players.create(40,10,gravite,timeStep)
     ennemi = Ennemi.create (144,9)
-    listeplateforme = [['______________________________________________________________________',10,25,70,0],['______________________________________________________________________',70,35,70,0]]
-    
+    listeplateforme = [['______________________________________________________________________',10,25,70,0,10],['____________________________________________________________',90,35,60,0,10]]
+    compteur = 0
 
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
@@ -57,8 +58,8 @@ def interact():
 			quitGame()
 		elif c=='\n' : # si la touche entré est appuyé
 			game.start=1
-		elif c==' ' : # si la touche entré est appuyé
-			players.memoireup=30
+		elif c==' ' and players.plateforme == -1 : # si la touche entré est appuyé et le players est sur une plateforme
+			players.memoireup=26
 			
 		
 def isData():
@@ -66,19 +67,22 @@ def isData():
 	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def run():
-	global timeStep, game
+	global timeStep, game,speed
 	#Boucle de simulation	
 	while 1:
-		interact()
-		move()
-		show()
-		Game.speedup(game)
-		Game.scoreup(game)	
-		time.sleep(timeStep)
+		if game.start == 0:
+			interact()
+			show()
+		else : 
+			interact()
+			move()
+			show()
+			Game.scoreup(game,speed)	
+			time.sleep(timeStep)
 
 
 def show ():
-	global ennemi,players, game, menu,listeplateforme
+	global ennemi,players, game, menu,listeplateforme,compteur
 	if game.start == 0 :
 		Menu.show(menu)
 		sys.stdout.flush() # vider la mémoire tampon
@@ -95,18 +99,25 @@ def show ():
 
 
 def move ():
-	global players, listeplateforme, timeStep, speed
+	global players, listeplateforme, timeStep, game,speed,compteur
 	#gerer creation de plateforme 
-	if len(listeplateforme)<3:
+	compteur=0
+	for i in range (len (listeplateforme)): #compter le nbr de caractère occupé par les plateformes 
+		compteur += listeplateforme[i][5]+listeplateforme[i][3]
+	if compteur <153:
 		plateforme = Plateforme.create()
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
+	
+
+
+
 		
 	delete = 0
 	position =0
 	#gerer appartition et disparition de plateformes 
 	for b in range (len(listeplateforme)) :	
 		if int(listeplateforme[b][1])==0: #regarde si la plateforme arrive en bout de course et on la fait disparaitre petit à petit 
-			listeplateforme[b]=Plateforme.reduire(listeplateforme, b)
+			listeplateforme[b]=Plateforme.reduire(listeplateforme, b,speed,timeStep)
 			if len(listeplateforme[b][0])==0: #on la supprime quand il y a plus rien dedans
 				delete = 1
 				position =b
@@ -132,7 +143,14 @@ def move ():
 	elif players.memoireup!=0: #faire le saut du player
 		Players.up(players)
 		players.memoireup-=1
-	Plateforme.move(listeplateforme,speed,timeStep) #bouger les plateformes
+
+	#bouger les plateformes	
+	Plateforme.move(listeplateforme,speed,timeStep) 
+	
+	
+
+	#augmenter la vitesse
+	speed = Game.speedup(speed)
 	
 
 	
