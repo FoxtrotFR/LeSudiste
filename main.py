@@ -110,7 +110,7 @@ def move ():
 	#gerer creation de plateforme 
 	derniereplat=len(listeplateforme)-1
 	if listeplateforme[derniereplat][5]<=0:
-		plateforme = Plateforme.create()
+		plateforme = Plateforme.create(game.score)
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
 	#gerer appartition et disparition de plateformes 	
 	delete = 0
@@ -160,7 +160,7 @@ def move ():
 
 	
 	#gerer deplacement des frites 
-	if game.score>2: #si le score est atteint 
+	if game.score>20: #si le score est atteint 
 		if len(listefrites)==0: 
 			frite = Frites.create()
 			listefrites=Frites.fritliste(listefrites,frite,0)
@@ -195,12 +195,9 @@ def move ():
 		if deletefrite==1:
 			del listefrites[positionfrite]
 
-
-
 	#augmenter la vitesse
 	speed = Game.speedup(speed)
 	
-
 	
 		
 def gameover (): # en cas de defaite relancer le jeu au menu
@@ -208,9 +205,6 @@ def gameover (): # en cas de defaite relancer le jeu au menu
 	game.start=0
 	players.y=10
 	game.score = 0
-	
-
-
 	
 
 

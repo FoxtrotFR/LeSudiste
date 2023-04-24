@@ -11,4 +11,4 @@ Règles :
 
     -Appuyer sur la touche m pour quitter le jeu
 
-    -Retrouvez le pastis!!!
+    -Retrouver le pastis!!!

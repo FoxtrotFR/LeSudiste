@@ -17,7 +17,7 @@ def create ( scoreboard,regles="regles.txt"):
     menu.name_y=5
     menu.name_x=71
 
-    menu.jouer = "Appuyer sur entré pour commencer le jeu"
+    menu.jouer = "Appuyer sur entrer pour commencer le jeu"
     menu.jouer_x=80
     menu.jouer_y=15
 

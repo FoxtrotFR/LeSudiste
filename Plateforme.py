@@ -11,7 +11,7 @@ import Tonneau
 import sys
 import random
 
-def create (): #ceer le type plateforme
+def create (score): #ceer le type plateforme
     plateforme = Plateforme()
     plateforme.x = 151
     plateforme.y =random.randint (32,39)  #position en y de la plateforme 
@@ -19,7 +19,9 @@ def create (): #ceer le type plateforme
     plateforme.look = ''
     plateforme.taille =0 #taille actuel de plateforme 
     plateforme.trou = random.randint(3,8) #taille de trou qui suit la plateforme 
-    plateforme.tonneau = 1 #random.randint (1,4)
+    if score>40:
+        plateforme.tonneau = random.randint (1,4)
+    else : plateforme.tonneau = 2
     if plateforme.tonneau ==1: 
         plateforme.ton=Tonneau.create(plateforme.lenth,plateforme.y) #creer le tonneau 
     else :
