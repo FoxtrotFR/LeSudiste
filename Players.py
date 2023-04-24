@@ -4,7 +4,6 @@ Created on Tue Apr 11 10:00:31 2023
 
 @author: Maxime
 """
-import time
 import sys 
 
 class Players : pass

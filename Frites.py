@@ -12,10 +12,11 @@ import random
 
 def create ():
     frite = Frites()
-    frite.x = 147
-    frite.y = 15
+    frite.x = 143
+    frite.y = 11
     frite.look = ['/','|','\\']
     frite.tempo =random.randint (30,60)
+    frite.speed = random.randint (15,30)
     
     return frite
 
@@ -27,12 +28,12 @@ def show (listefrites,nbr): #etat varie en focntion de la gravité (voir liste f
 
     sys.stdout.write(listefrites[nbr][0]) #afficher la frite
 
-def move (listefrites,speed,gravite,dt):
+def move (listefrites,gravite,dt):
     for i in listefrites :
-        i[1]-=speed*dt #appliquer la vitesse lateral
-        i[2]+=(gravite*dt)/5 #appliquer la gravite(diminué)
+        i[1]-=i[4]*dt #appliquer la vitesse lateral
+        i[2]+=(gravite*dt)/3 #appliquer la gravite(diminué)
 
 def fritliste(listefrites,frite,etat):
-    listefrites.append([frite.look[etat],frite.x,frite.y, frite.tempo]) #rajout d'une frite 
+    listefrites.append([frite.look[etat],frite.x,frite.y, frite.tempo,frite.speed]) #rajout d'une frite 
     return listefrites
 

@@ -30,7 +30,7 @@ listefrites = None
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites 
+    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites,  compteur 
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
@@ -42,8 +42,9 @@ def init():
     game = Game.create(speed,score)
     players = Players.create(40,10,gravite,timeStep)
     ennemi = Ennemi.create (144,9)
-    listeplateforme = [['______________________________________________________________________',10,25,70,0,10],['____________________________________________________________',90,35,60,0,10]]
+    listeplateforme = [['______________________________________________________________________',10,25,70,0,10,4],['____________________________________________________________',90,35,60,0,0,4]]
     listefrites=[]
+    compteur=0
     
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
@@ -102,12 +103,13 @@ def show ():
 
 
 def move ():
-	global players, listeplateforme, timeStep, game, speed, listefrites
+	global players, listeplateforme, timeStep, game, speed, listefrites, compteur 
 
 	#bouger les plateformes	
 	Plateforme.move(listeplateforme,speed,timeStep) 
 	#gerer creation de plateforme 
-	if len(listeplateforme)<3:
+	derniereplat=len(listeplateforme)-1
+	if listeplateforme[derniereplat][5]<=0:
 		plateforme = Plateforme.create()
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
 	#gerer appartition et disparition de plateformes 	
@@ -115,8 +117,8 @@ def move ():
 	position =0
 	for b in range (len(listeplateforme)) :	
 		if int(listeplateforme[b][1])<=0: #regarde si la plateforme arrive en bout de course et on la fait disparaitre petit à petit 
-			listeplateforme[b]=Plateforme.reduire(listeplateforme, b,speed,timeStep)
-			if len(listeplateforme[b][0])==0: #on la supprime quand il y a plus rien dedans
+			listeplateforme[b]=Plateforme.reduire(listeplateforme, b)
+			if len(listeplateforme[b][0])==0 : #on la supprime quand il y a plus rien 
 				delete = 1
 				position =b
 		else :	
@@ -124,6 +126,7 @@ def move ():
 	if delete ==1 :
 		del listeplateforme[position]		
 
+	
 	
 	#gerer les collision du player
 	players.plateforme=0 
@@ -135,8 +138,19 @@ def move ():
 		for a in range (3):
 			if int(players.y)+3 == int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])): #ne plus appliquer la gravité au contact d'une plateforme
 				players.plateforme=-1
-			elif int (players.y)==int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])) : #collision par dessous une plateforme impossible 
-				players.memoireup=0
+			elif int(players.y)==int(i[2]) and int(i[1])<=int(players.x)+1 <= int( i[1]+len(i[0])) : #collision par dessous une plateforme impossible 
+				players.memoireup=0 #si la tete touche
+			for b in range (1,3): #si le corps touche
+				if int (players.y)+b==int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])) : 
+					players.memoireup=0
+		#collision avec un tonneau
+		if i[6]==1:
+			for c in range (3):
+				for d in range(3):
+					if int(players.y)+c==int(i[7].y) and int(players.x)+d==int (i[7].x)+1:
+						gameover()
+					
+		
 
 	if players.plateforme==0 and players.memoireup==0: #apliquer la gravité
 		Players.playersdown(players) 
@@ -147,7 +161,7 @@ def move ():
 	
 	#gerer deplacement des frites 
 	if game.score>2: #si le score est atteint 
-		if len(listefrites)==0:
+		if len(listefrites)==0: 
 			frite = Frites.create()
 			listefrites=Frites.fritliste(listefrites,frite,0)
 		elif len (listefrites)<10 and listefrites[len(listefrites)-1][3]==0: #creer une frite 
@@ -156,7 +170,7 @@ def move ():
 		for i in range (len(listefrites)):
 			if listefrites[i][3]>0:
 				listefrites[i][3]-=1
-		Frites.move(listefrites,speed,gravite,timeStep)
+		Frites.move(listefrites,gravite,timeStep)
 	
 	#gerer les collsion des frites 
 		deletefrite = 0
@@ -174,7 +188,10 @@ def move ():
 				deletefrite=1
 				positionfrite=i
 			#collision avec plateforme
-			
+			for c in range(len(listeplateforme)):
+				if int(listefrites[i][2])==int(listeplateforme[c][2]) and int (listeplateforme[c][1])<= int(listefrites[i][1])<= int(listeplateforme[c][1]+len(listeplateforme[c][0])):
+					deletefrite=1
+					positionfrite=i
 		if deletefrite==1:
 			del listefrites[positionfrite]
 
@@ -191,7 +208,6 @@ def gameover (): # en cas de defaite relancer le jeu au menu
 	game.start=0
 	players.y=10
 	game.score = 0
-	game.speed=1
 	
 
 
