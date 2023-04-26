@@ -63,9 +63,9 @@ def interact():
 		elif c==' ' and players.plateforme == -1 : # si la touche entré est appuyé et le players est sur une plateforme
 			players.memoireup=26
 		elif c=='q' : # si la touche q est appuyéez
-			players.left = 10
+			players.left = 1
 		elif c=='d' : # si la touche d est appuyée 
-			players.right = 10
+			players.right = 1
 			
 		
 def isData():
@@ -73,7 +73,7 @@ def isData():
 	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def run():
-	global timeStep, game,speed
+	global timeStep, game,speed,listeplateforme, listefrites,players
 	#Boucle de simulation	
 	while 1:
 		if game.start == 0:
@@ -81,9 +81,13 @@ def run():
 			show()
 		else : 
 			interact()
-			if game.score <10:
+			if game.score <10: #gravité initiale 
 				move1()
-			elif game.score>=10:
+			elif int(game.score)==10: #renitialisé le jeu 
+				listeplateforme=[]
+				listefrites=[]
+				players.y =35 #imposer la ligne du players 
+			elif game.score>10: #changer la gravité
 				move2()
 			
 			show()
@@ -207,13 +211,8 @@ def move1 ():
 	
 def move2():
 	global speed,gravite, players, listefrites, listeplateforme,game,timeStep
-	#initialisation :
-	listefrites=[]
-	listeplateforme=[]
-
 
 	#gerer mouvement du players
-	players.y =30 #imposer la ligne du players 
 	if players.right !=0 : #bouger le players vers la droite si la touche est appuyé
 		Players.right(players)
 		players.right -=1
@@ -223,11 +222,16 @@ def move2():
 
 	#gerer appartition des plateformes
 	#creer les plateformes
-	if len(listeplateforme)<1:
+	if len(listeplateforme)<2:
 		plateforme = Plateforme.create2()
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
 	#bouger les plateformes
 	Plateforme.move2(listeplateforme,speed,timeStep)
+	
+	#collision plateforme avec le sol 
+	for i in range(len(listeplateforme)):
+		if int(listeplateforme[i][2])==41:
+			del listeplateforme[i]
 
 
 

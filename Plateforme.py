@@ -31,10 +31,10 @@ def create (score): #ceer le type plateforme
 
 def create2():
     plateforme = Plateforme()
-    plateforme.x = random.randint (1,151)
+    plateforme.x = random.randint (1,152)
     plateforme.y =10  #position en y de la plateforme 
     plateforme.lenth = random.randint (40,70) #taille total de la plateforme 
-    while plateforme.x+plateforme.lenth >151:
+    while plateforme.x+plateforme.lenth >152:
         plateforme.lenth-=2
 
     plateforme.look = ''
@@ -82,13 +82,12 @@ def move(listeplateforme,speed,dt):
 
 def move2(listeplateforme,speed,dt):
     for i in listeplateforme :
-        i[2]-=speed*dt      
+        i[2]+=(speed/3)*dt      
 
 def reduire (listeplateforme,nbr) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse
     if len(listeplateforme[nbr][0])>0:
-        listeplateforme[nbr][3]+=listeplateforme[nbr][1] #enleve x a la taille de la plateforme 
-    listeplateforme[nbr][0]=''
+        listeplateforme[nbr][0]=''
     for i in range (int(listeplateforme[nbr][3])): #regenere une plateforme de la bonne taille 
         listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
     
