@@ -29,6 +29,24 @@ def create (score): #ceer le type plateforme
 
     return plateforme
 
+def create2():
+    plateforme = Plateforme()
+    plateforme.x = random.randint (1,151)
+    plateforme.y =10  #position en y de la plateforme 
+    plateforme.lenth = random.randint (40,70) #taille total de la plateforme 
+    while plateforme.x+plateforme.lenth >151:
+        plateforme.lenth-=2
+
+    plateforme.look = ''
+    for i in range (plateforme.lenth):
+        plateforme.look= plateforme.look+'_'
+    plateforme.trou=0
+    plateforme.tonneau=2
+    plateforme.ton=''
+    plateforme.taille=0
+    return plateforme 
+
+    
 
 def show(listeplateforme,nbr):
 
@@ -50,15 +68,21 @@ def show(listeplateforme,nbr):
 
 
 def listeplat (listeplateforme,plateforme):
-    listeplateforme.append(['',plateforme.x,plateforme.y,plateforme.lenth,plateforme.taille, plateforme.trou,plateforme.tonneau,plateforme.ton]) #liste de 8 elements 
+    listeplateforme.append([plateforme.look,plateforme.x,plateforme.y,plateforme.lenth,plateforme.taille, plateforme.trou,plateforme.tonneau,plateforme.ton]) #liste de 8 elements 
     return listeplateforme
+
+
+
 
 def move(listeplateforme,speed,dt):
     for i in listeplateforme :
         i[1]-=speed*dt
         if i[6]==1: #bouger le tonneau s'il y en a un
             Tonneau.move(i[7],speed,dt)
-        
+
+def move2(listeplateforme,speed,dt):
+    for i in listeplateforme :
+        i[2]-=speed*dt      
 
 def reduire (listeplateforme,nbr) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse

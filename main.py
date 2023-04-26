@@ -24,7 +24,6 @@ timeStep= None
 speed= None 
 gravite = None 
 score = None 
-compteur = None 
 listefrites = None 
 
 old_settings = termios.tcgetattr(sys.stdin)
@@ -44,7 +43,7 @@ def init():
     ennemi = Ennemi.create (144,9)
     listeplateforme = [['______________________________________________________________________',10,25,70,0,10,4],['____________________________________________________________',90,35,60,0,0,4]]
     listefrites=[]
-    compteur=0
+
     
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
@@ -52,17 +51,21 @@ def init():
 
 def interact():
 	global  timeStep, game, players
-	#gestion des evenement clavier
+	#gestion des evenements clavier
 	
-	#si une touche est appuyee
+	#si une touche est appuyée
 	if isData():
 		c = sys.stdin.read(1)
 		if c == 'm':         
 			quitGame()
-		elif c=='\n' : # si la touche entré est appuyé
+		elif c=='\n' : # si la touche entré est appuyée
 			game.start=1
 		elif c==' ' and players.plateforme == -1 : # si la touche entré est appuyé et le players est sur une plateforme
 			players.memoireup=26
+		elif c=='q' : # si la touche q est appuyéez
+			players.left = 10
+		elif c=='d' : # si la touche d est appuyée 
+			players.right = 10
 			
 		
 def isData():
@@ -78,7 +81,11 @@ def run():
 			show()
 		else : 
 			interact()
-			move()
+			if game.score <10:
+				move1()
+			elif game.score>=10:
+				move2()
+			
 			show()
 			Game.scoreup(game,speed)	
 			time.sleep(timeStep)
@@ -102,8 +109,8 @@ def show ():
 
 
 
-def move ():
-	global players, listeplateforme, timeStep, game, speed, listefrites, compteur 
+def move1 ():
+	global players, listeplateforme, timeStep, game, speed, listefrites
 
 	#bouger les plateformes	
 	Plateforme.move(listeplateforme,speed,timeStep) 
@@ -198,7 +205,32 @@ def move ():
 	#augmenter la vitesse
 	speed = Game.speedup(speed)
 	
-	
+def move2():
+	global speed,gravite, players, listefrites, listeplateforme,game,timeStep
+	#initialisation :
+	listefrites=[]
+	listeplateforme=[]
+
+
+	#gerer mouvement du players
+	players.y =30 #imposer la ligne du players 
+	if players.right !=0 : #bouger le players vers la droite si la touche est appuyé
+		Players.right(players)
+		players.right -=1
+	elif players.left !=0 :  #bouger le players vers la gauche si la touche est appuyé
+		Players.left (players)
+		players.left -=1
+
+	#gerer appartition des plateformes
+	#creer les plateformes
+	if len(listeplateforme)<1:
+		plateforme = Plateforme.create2()
+		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
+	#bouger les plateformes
+	Plateforme.move2(listeplateforme,speed,timeStep)
+
+
+
 		
 def gameover (): # en cas de defaite relancer le jeu au menu
 	global players, game, score 
