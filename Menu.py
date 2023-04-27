@@ -9,6 +9,9 @@ class Menu : pass
 
 import Game
 import sys
+import Scoreboard
+
+scoreboard = Scoreboard.create_from_csv(csv_filename="./test.csv", score_column_number=1)
 
 #creer le menu
 def create ( scoreboard,regles="regles.txt"):
@@ -17,7 +20,7 @@ def create ( scoreboard,regles="regles.txt"):
     menu.name_y=5
     menu.name_x=71
 
-    menu.jouer = "Appuyer sur entré pour commencer le jeu"
+    menu.jouer = "Appuyer sur entrer pour commencer le jeu"
     menu.jouer_x=80
     menu.jouer_y=15
 
@@ -36,6 +39,21 @@ def create ( scoreboard,regles="regles.txt"):
 def show (menu):
     #afficher le fond
     Game.showbackground()  #153 colones et 41 lignes (dont 3 lignes au dessu sans rien)
+
+    #Affichage Scoreboard
+    top_scores = Scoreboard.get_top_scores(scoreboard)
+    top_player_names = Scoreboard.get_top_scores_name(scoreboard)
+    x = str(int(menu.jouer_x)-45)
+    y = str(int(menu.jouer_y)-1)
+    txt = "\033["+y+";"+x+"H"
+    sys.stdout.write(txt)
+    sys.stdout.write("SCOREBOARD")
+    for i in range(len(top_scores)):
+        x = str(int(menu.jouer_x)-50)
+        y = str(int(menu.jouer_y)+i)
+        txt = "\033["+y+";"+x+"H"  # placer le curseur
+        sys.stdout.write(txt)  # se placer à la position du score et du nom
+        sys.stdout.write(str(i+1) +".  " + top_player_names[i] + " : " + str(top_scores[i]))
 
     #Afficher le name à l'endroit donné 
     x=str(menu.name_x)

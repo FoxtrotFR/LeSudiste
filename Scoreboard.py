@@ -44,28 +44,18 @@ def add_score( playername, score):
         for row in rows:
             writer.writerow(row)
 
+def get_top_scores_name(scoreboard):
+    sorted_scores = sorted(scoreboard.scores, reverse=True)
+    top_scores = sorted_scores[:10]
+    top_player_names = [scoreboard.player_names[scoreboard.scores.index(score)] for score in top_scores]
+    top_player_scores = top_scores
+    return list(top_player_names)
 def get_top_scores(scoreboard):
     sorted_scores = sorted(scoreboard.scores, reverse=True)
     top_scores = sorted_scores[:10]
     top_player_names = [scoreboard.player_names[scoreboard.scores.index(score)] for score in top_scores]
     top_player_scores = top_scores
-    return list(zip(top_player_names, top_player_scores))
+    return list(top_player_scores)
 
 
 
-
-if __name__ == "__main__":
-    scoreboard = create_from_csv("./test.csv", 1)
-    add_score("Foxtrot",9999)
-    add_score("Luc",5000)
-    add_score("Foxtro",9000)
-    add_score("Foxtrt",8000)
-    add_score("Foxtr",7000)
-    add_score("Foxt",6000)
-    add_score("Fox",4000)
-    add_score("Fo",3000)
-    add_score("F",2000)
-    add_score("FoxtrotNice",500)
-    add_score("Besson",200)
-    add_score("Patate",3000)
-    print(get_top_scores(scoreboard))
