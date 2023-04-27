@@ -230,6 +230,20 @@ def move2():
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
 	#bouger les plateformes
 	Plateforme.move2(listeplateforme,speed,timeStep)
+
+	#gerer les frites 
+	if game.score>20:
+		#creer les frites 
+		if len(listefrites)==0:
+			frite=Frites.create2()
+			listefrites=Frites.fritliste(listefrites,frite,0)
+		elif listefrites[len(listefrites)-1][3]==0:
+			frite=Frites.create2()
+			listefrites=Frites.fritliste(listefrites,frite,0)
+		listefrites[len(listefrites)-1][3]-=1 #gerer le tempo de la derniere frite 
+		Frites.move(listefrites,gravite,timeStep)
+
+
 	
 
 	#COLLISION
@@ -257,9 +271,10 @@ def move2():
 	elif players.x>=150:
 		players.x=150
 		players.right=0
+	#collision frite
 
 
-	#remettre à 0 les deplacfement 
+	#remettre à 0 les deplacements
 	players.left = 0
 	players.right = 0
 

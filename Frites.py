@@ -14,12 +14,20 @@ def create ():
     frite = Frites()
     frite.x = 143
     frite.y = 11
-    frite.look = ['/','|','\\']
+    frite.look = ['/','|',"\\"]
     frite.tempo =random.randint (40,70)
     frite.speed = random.randint (15,30)
     
     return frite
-
+def create2():
+    frite = Frites()
+    frite.x = 143
+    frite.y = 11
+    frite.look = ['/','|',"\\"]
+    frite.tempo =random.randint (40,70)
+    frite.speed = random.randint (0,30)
+    
+    return frite
 def show (listefrites,nbr): #etat varie en focntion de la gravité (voir liste frites.look)
     x=str(int(listefrites[nbr][1]))
     y=str(int(listefrites[nbr][2]))
