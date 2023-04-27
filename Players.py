@@ -4,7 +4,6 @@ Created on Tue Apr 11 10:00:31 2023
 
 @author: Maxime
 """
-import time
 import sys 
 
 class Players : pass
@@ -20,6 +19,8 @@ def create( x, y,gravite,dt):
     players.look = look.read().splitlines()
     look.close()
     players.memoireup=0
+    players.right =0
+    players.left =0
     return players
     
     
@@ -43,12 +44,14 @@ def up(players): #sauter en hauteur
     return players.y
     
 def right (players) : #decaller vers la droite
-    players.x+=10
+    x=players.x
+    players.x=x+players.gravite*players.dt
     return players.x
 
 def left (players): #decaller le player vers la gauche 
-    players.x-=10   
-    return players  
+    x=players.x
+    players.x=x-players.gravite*players.dt
+    return players.x 
 
 def playersdown (players):
     y= players.y
