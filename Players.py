@@ -45,12 +45,12 @@ def up(players): #sauter en hauteur
     
 def right (players) : #decaller vers la droite
     x=players.x
-    players.x=x+players.gravite*players.dt
+    players.x=x+(players.gravite*players.dt*3)
     return players.x
 
 def left (players): #decaller le player vers la gauche 
     x=players.x
-    players.x=x-players.gravite*players.dt
+    players.x=x-(players.gravite*players.dt*3)
     return players.x 
 
 def playersdown (players):

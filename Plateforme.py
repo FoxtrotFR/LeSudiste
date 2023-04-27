@@ -33,14 +33,14 @@ def create2():
     plateforme = Plateforme()
     plateforme.x = random.randint (1,152)
     plateforme.y =10  #position en y de la plateforme 
-    plateforme.lenth = random.randint (40,70) #taille total de la plateforme 
-    while plateforme.x+plateforme.lenth >152:
+    plateforme.lenth = random.randint (50,70) #taille total de la plateforme 
+    while plateforme.x+plateforme.lenth >153:
         plateforme.lenth-=2
 
     plateforme.look = ''
     for i in range (plateforme.lenth):
         plateforme.look= plateforme.look+'_'
-    plateforme.trou=0
+    plateforme.trou=random.randint(10,20)
     plateforme.tonneau=2
     plateforme.ton=''
     plateforme.taille=0
@@ -82,7 +82,9 @@ def move(listeplateforme,speed,dt):
 
 def move2(listeplateforme,speed,dt):
     for i in listeplateforme :
-        i[2]+=(speed/3)*dt      
+        i[2]+=(speed/3)*dt   
+        if i[5]>0:#plateforme.trou(la tempo)
+            i[5]-=(speed/3)*dt   
 
 def reduire (listeplateforme,nbr) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse

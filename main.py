@@ -64,8 +64,10 @@ def interact():
 			players.memoireup=26
 		elif c=='q' : # si la touche q est appuyéez
 			players.left = 1
+			players.right=0
 		elif c=='d' : # si la touche d est appuyée 
 			players.right = 1
+			players.left=0
 			
 		
 def isData():
@@ -84,11 +86,12 @@ def run():
 			if game.score <10: #gravité initiale 
 				move1()
 			elif int(game.score)==10: #renitialisé le jeu 
-				listeplateforme=[]
+				listeplateforme=[['____________________________________________________________',50,25,60,0,0,4]]
 				listefrites=[]
 				players.y =35 #imposer la ligne du players 
 			elif game.score>10: #changer la gravité
 				move2()
+				
 			
 			show()
 			Game.scoreup(game,speed)	
@@ -221,17 +224,50 @@ def move2():
 		players.left -=1
 
 	#gerer appartition des plateformes
-	#creer les plateformes
-	if len(listeplateforme)<2:
-		plateforme = Plateforme.create2()
+	dernierplatef=len(listeplateforme)-1
+	if listeplateforme[dernierplatef][5]<=0:
+		plateforme = Plateforme.create2()#creer les plateformes
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
 	#bouger les plateformes
 	Plateforme.move2(listeplateforme,speed,timeStep)
 	
+
+	#COLLISION
+	delete = 0
+	position = 0
 	#collision plateforme avec le sol 
 	for i in range(len(listeplateforme)):
 		if int(listeplateforme[i][2])==41:
-			del listeplateforme[i]
+			delete=1
+			position = i
+	if delete==1:
+		del listeplateforme[position]
+	#collision plateforme joueur 
+	for i in listeplateforme:
+		for a in range (3):
+			if int(players.y)+a==int(i[2]) and int(i[1])<=int(players.x)+1<=int(i[1]+i[3]): #contacte avec la tete
+				gameover()
+			for b in range(3):
+				if int(players.y)+a==int(i[2]) and int(i[1])<=int(players.x)+b<=int(i[1]+i[3]): #collision avce le corps 
+					gameover()
+	#collision joueur avec les murs 
+	if int(players.x)<=1:
+		players.x=1
+		players.left=0
+	elif players.x>=150:
+		players.x=150
+		players.right=0
+
+
+	#remettre à 0 les deplacfement 
+	players.left = 0
+	players.right = 0
+
+	
+
+
+	
+
 
 
 
