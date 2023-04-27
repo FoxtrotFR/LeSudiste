@@ -79,7 +79,7 @@ def showscore (game):
     sys.stdout.write(str(int(game.score))) #afficher
 
 def scoreup (game,speed):
-    game.score+=(speed*0.05)
+    game.score+=(speed*0.01)
 
 def speedup(speed):
     speed+=0.01

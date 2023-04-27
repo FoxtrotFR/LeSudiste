@@ -8,15 +8,13 @@ Created on Tue Apr 11 10:58:47 2023
 class Tonneau : pass
 
 import sys
-import random
 
 #creer le tonneau
-def create (lenthplat,y):
+def create (x,y,filename):
     tonneau = Tonneau()
-    lenthplat=lenthplat-18+151
-    tonneau.x = random.randint(165,lenthplat)
-    tonneau.y = y-2
-    look=open("tonneau.txt","r")
+    tonneau.x = x
+    tonneau.y = y
+    look=open(filename,"r")
     tonneau.look = look.read().splitlines()
     look.close()
     
@@ -39,9 +37,7 @@ def show(tonneau):
 def getheight(tonneau): #renvoyer la hauteur du tonneau
     return tonneau.y
 
-def move(tonneau,speed,dt):
-    tonneau.x-=speed*dt
-
-
-
-
+#test validé
+if __name__=="__main__":
+    tonneau = create(10,10,"tonneau.txt")
+    show(tonneau)
