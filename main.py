@@ -19,18 +19,27 @@ import Menu
 import Ennemi
 import Plateforme
 import Frites
+import Tonneau
 
 timeStep= None
 speed= None 
 gravite = None 
 score = None 
 listefrites = None 
+<<<<<<< Updated upstream
 intro = None
+=======
+listetonneau = None 
+>>>>>>> Stashed changes
 
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
+<<<<<<< Updated upstream
     global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites, intro,  compteur 
+=======
+    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites, listetonneau
+>>>>>>> Stashed changes
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
@@ -44,8 +53,12 @@ def init():
     ennemi = Ennemi.create (144,9)
     listeplateforme = [['______________________________________________________________________',10,25,70,0,10,4],['____________________________________________________________',90,35,60,0,0,4]]
     listefrites=[]
+<<<<<<< Updated upstream
     intro=frame.read_frames("intro.txt")
 
+=======
+    listetonneau = []
+>>>>>>> Stashed changes
     
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
@@ -60,12 +73,16 @@ def interact():
 		c = sys.stdin.read(1)
 		if c == 'm':         
 			quitGame()
+<<<<<<< Updated upstream
 		elif c=='\n' : # si la touche entré est appuyée
 			frame.display_frames(intro,delay=5)
 			while not frame.get_frame_finished(intro):
 				 time.sleep(0.1)
+=======
+		elif c =='\n' : # si la touche entré est appuyée
+>>>>>>> Stashed changes
 			game.start=1
-		elif c==' ' and players.plateforme == -1 : # si la touche entré est appuyé et le players est sur une plateforme
+		elif c==' ' and players.plateforme == -1 :  # si la touche entré est appuyé et le players est sur une plateforme
 			players.memoireup=26
 		elif c=='q' : # si la touche q est appuyéez
 			players.left = 1
@@ -76,7 +93,7 @@ def interact():
 			
 		
 def isData():
-	#recuperation evenement clavier
+	# recuperation evenement clavier
 	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def run():
@@ -117,6 +134,8 @@ def show ():
 			Plateforme.show(listeplateforme,i)
 		for i in range(len(listefrites)):
 			Frites.show(listefrites,i)
+		for i in listetonneau:
+			Tonneau.show(i)
 		sys.stdout.flush() # vider la mémoire tampon
 
 
@@ -171,7 +190,7 @@ def move1 ():
 					
 		
 
-	if players.plateforme==0 and players.memoireup==0: #apliquer la gravité
+	if players.plateforme==0 and players.memoireup==0: #appliquer la gravité
 		Players.playersdown(players) 
 	elif players.memoireup!=0: #faire le saut du player
 		Players.up(players)
@@ -186,12 +205,12 @@ def move1 ():
 		elif len (listefrites)<10 and listefrites[len(listefrites)-1][3]==0: #creer une frite 
 			frite = Frites.create()
 			listefrites=Frites.fritliste(listefrites,frite,0)
-		for i in range (len(listefrites)):
+		for i in range (len(listefrites)): #gerer la tempo ert le reduire si besoin 
 			if listefrites[i][3]>0:
 				listefrites[i][3]-=1
 		Frites.move(listefrites,gravite,timeStep)
 	
-	#gerer les collsion des frites 
+	#gerer les collision des frites 
 		deletefrite = 0
 		positionfrite= 0
 		for i in range (len(listefrites)): 
@@ -211,14 +230,17 @@ def move1 ():
 				if int(listefrites[i][2])==int(listeplateforme[c][2]) and int (listeplateforme[c][1])<= int(listefrites[i][1])<= int(listeplateforme[c][1]+len(listeplateforme[c][0])):
 					deletefrite=1
 					positionfrite=i
-		if deletefrite==1:
-			del listefrites[positionfrite]
+			if deletefrite==1:
+				del listefrites[positionfrite]
 
 	#augmenter la vitesse
 	speed = Game.speedup(speed)
 	
 def move2():
-	global speed,gravite, players, listefrites, listeplateforme,game,timeStep
+	global speed,gravite, players, listefrites, listeplateforme,game,timeStep,listetonneau
+	#initialisation des variables 
+	deletetonneau = 0
+	positiontonneau = 0
 
 	#gerer mouvement du players
 	if players.right !=0 : #bouger le players vers la droite si la touche est appuyé
@@ -247,6 +269,56 @@ def move2():
 			listefrites=Frites.fritliste(listefrites,frite,0)
 		listefrites[len(listefrites)-1][3]-=1 #gerer le tempo de la derniere frite 
 		Frites.move(listefrites,gravite,timeStep)
+		
+		#COLLISION frite 
+		deletefrite = 0
+		positionfrite = 0
+		for i in range (len(listefrites)): 
+			#collision avec le palyers
+			if int(listefrites[i][2])== int(players.y) and int(listefrites[i][1])==int(players.x)+1: #si la frite touche la tete
+				gameover()
+			for b in range (1,3):
+				for a in range(3):
+					if int(listefrites[i][2])==int(players.y)+b and int(listefrites[i][1])==int(players.x)+a: #si la frite touche le corps
+						gameover()
+			#collision avec le sol ou le mur
+			if int (listefrites[i][2])==41 or int(listefrites[i][1]==0) :
+				deletefrite=1
+				positionfrite=i
+			#collision avec plateforme
+			for c in range(len(listeplateforme)):
+				if int(listefrites[i][2])==int(listeplateforme[c][2]) and int (listeplateforme[c][1])<= int(listefrites[i][1])<= int(listeplateforme[c][1]+len(listeplateforme[c][0])):
+					deletefrite=1
+					positionfrite=i
+		if deletefrite==1:
+			del listefrites[positionfrite]
+
+	#gerer les tonneau
+	if game.score>30:
+		#creation des tonneau
+		if len(listetonneau)==0: # si la liste est vide 
+			tonneau= Tonneau.create2()
+			listetonneau = Tonneau.listonneau(listetonneau,tonneau)
+		derniertonneau=len(listetonneau)-1
+		if listetonneau[derniertonneau].tempo==0: #baisser le tempo du dernier tonneau
+			tonneau= Tonneau.create2()
+			listetonneau = Tonneau.listonneau(listetonneau,tonneau)
+		listetonneau[derniertonneau].tempo-=1
+		for i in listetonneau:
+			Tonneau.move2(i,speed,timeStep) #bouger les tonneau
+		
+		#collision tonneau 
+		#collision avec le sol
+		
+		for i in range(len(listetonneau)):
+			if int(listetonneau[i].y)+3==41:
+				deletetonneau=1
+				positiontonneau=i
+
+	if deletetonneau==1:
+		del listetonneau[positiontonneau]
+
+
 
 
 	
@@ -276,7 +348,9 @@ def move2():
 	elif players.x>=150:
 		players.x=150
 		players.right=0
+
 	#collision frite
+
 
 
 	#remettre à 0 les deplacements

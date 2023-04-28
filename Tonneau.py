@@ -22,7 +22,20 @@ def create (lenthplat,y):
     
     return tonneau
 
+def create2():
+    tonneau=Tonneau()
+    tonneau.x=random.randint(1,149)
+    tonneau.y=8
+    tonneau.tempo=random.randint(5,15)
+    look=open("tonneau.txt","r")
+    tonneau.look = look.read().splitlines()
+    look.close()
 
+    return tonneau
+
+def listonneau(listetonneau,tonneau):
+    listetonneau.append(tonneau)
+    return listetonneau
 def show(tonneau):
     
     #afficher le tonneau ligne par ligne 
@@ -41,6 +54,9 @@ def getheight(tonneau): #renvoyer la hauteur du tonneau
 
 def move(tonneau,speed,dt):
     tonneau.x-=speed*dt
+
+def move2(tonneau,speed,dt):
+    tonneau.y+=(speed*dt)/3
 
 
 
