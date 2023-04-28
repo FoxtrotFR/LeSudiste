@@ -26,20 +26,13 @@ speed= None
 gravite = None 
 score = None 
 listefrites = None 
-<<<<<<< Updated upstream
 intro = None
-=======
 listetonneau = None 
->>>>>>> Stashed changes
 
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-<<<<<<< Updated upstream
-    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites, intro,  compteur 
-=======
     global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites, listetonneau
->>>>>>> Stashed changes
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
@@ -53,12 +46,9 @@ def init():
     ennemi = Ennemi.create (144,9)
     listeplateforme = [['______________________________________________________________________',10,25,70,0,10,4],['____________________________________________________________',90,35,60,0,0,4]]
     listefrites=[]
-<<<<<<< Updated upstream
     intro=frame.read_frames("intro.txt")
 
-=======
     listetonneau = []
->>>>>>> Stashed changes
     
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
     
@@ -72,16 +62,7 @@ def interact():
 	if isData():
 		c = sys.stdin.read(1)
 		if c == 'm':         
-			quitGame()
-<<<<<<< Updated upstream
-		elif c=='\n' : # si la touche entré est appuyée
-			frame.display_frames(intro,delay=5)
-			while not frame.get_frame_finished(intro):
-				 time.sleep(0.1)
-=======
-		elif c =='\n' : # si la touche entré est appuyée
->>>>>>> Stashed changes
-			game.start=1
+			quitGame()	
 		elif c==' ' and players.plateforme == -1 :  # si la touche entré est appuyé et le players est sur une plateforme
 			players.memoireup=26
 		elif c=='q' : # si la touche q est appuyéez
@@ -90,6 +71,11 @@ def interact():
 		elif c=='d' : # si la touche d est appuyée 
 			players.right = 1
 			players.left=0
+		elif c=='\n' : # si la touche entré est appuyée
+			game.start=1
+			frame.display_frames(intro,delay=5)
+			while not frame.get_frame_finished(intro):
+				 time.sleep(0.1)
 			
 		
 def isData():
@@ -314,6 +300,17 @@ def move2():
 			if int(listetonneau[i].y)+3==41:
 				deletetonneau=1
 				positiontonneau=i
+		#collision tonneau
+		for i in listetonneau:
+			if int(i.y)+3==int(players.y) and int(i.x)==int(players.x): # si la tete est au contact du bas du tonneau
+				gameover()
+			#regarder si le bas du tonneau est au contact du joueur
+			for a in range(1,3): # le milieur du corps et le bas
+				for b in range(3): #les colones du joueur 
+					for c in range(3): # la ligne du bas du tonneau
+						for d in range(1,3): #les deux lignes du bas du tonneau
+							if int(i.y)+d==int(players.y)+a and int(i.x)+c==int(players.x)+b:
+								gameover()
 
 	if deletetonneau==1:
 		del listetonneau[positiontonneau]
