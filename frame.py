@@ -7,6 +7,7 @@ class Frames: pass
 def read_frames(filename, color=None):
     frames = Frames()
     frames.list = []
+    frames.finished = False
     with open(filename, 'r') as f:
         frame = ""
         for line in f:
@@ -37,7 +38,11 @@ def display_frames(frames,delay=None):
         if delay == None:
             delay = 0.1
         time.sleep(delay)
+    frames.finished = True
+    return frames
+def get_frame_finished(frames):
+    return frames.finished
 
 if __name__ == "__main__":
-    frames = read_frames("anim.txt")
-    display_frames(frames)
+    frames = read_frames("intro.txt")
+    display_frames(frames,delay=5)

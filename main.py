@@ -25,11 +25,12 @@ speed= None
 gravite = None 
 score = None 
 listefrites = None 
+intro = None
 
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites,  compteur 
+    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites, intro,  compteur 
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
@@ -43,6 +44,7 @@ def init():
     ennemi = Ennemi.create (144,9)
     listeplateforme = [['______________________________________________________________________',10,25,70,0,10,4],['____________________________________________________________',90,35,60,0,0,4]]
     listefrites=[]
+    intro=frame.read_frames("intro.txt")
 
     
     tty.setcbreak(sys.stdin.fileno()) #modifier le fct du terminal pr recupérer les interactions clavier 
@@ -59,6 +61,9 @@ def interact():
 		if c == 'm':         
 			quitGame()
 		elif c=='\n' : # si la touche entré est appuyée
+			frame.display_frames(intro,delay=5)
+			while not frame.get_frame_finished(intro):
+				 time.sleep(0.1)
 			game.start=1
 		elif c==' ' and players.plateforme == -1 : # si la touche entré est appuyé et le players est sur une plateforme
 			players.memoireup=26
