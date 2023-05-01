@@ -32,7 +32,7 @@ listetonneau = None
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites, listetonneau
+    global timeStep, menu, game, players, ennemi, speed, gravite, score, listeplateforme, listefrites, listetonneau, intro
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
@@ -55,7 +55,7 @@ def init():
     
 
 def interact():
-	global  timeStep, game, players
+	global  timeStep, game, players,intro
 	#gestion des evenements clavier
 	
 	#si une touche est appuyée
