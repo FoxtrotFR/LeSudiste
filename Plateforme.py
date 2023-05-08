@@ -15,10 +15,10 @@ def create (score): #ceer le type plateforme
     plateforme = Plateforme()
     plateforme.x = 151
     plateforme.y =random.randint (32,39)  #position en y de la plateforme 
-    plateforme.lenth=random.randint (60,80) #taille total de la plateforme 
+    plateforme.lenth=random.randint (80,100) #taille total de la plateforme 
     plateforme.look = ''
     plateforme.taille =0 #taille actuel de plateforme 
-    plateforme.trou = random.randint(3,8) #taille de trou qui suit la plateforme 
+    plateforme.trou = random.randint(3,7) #taille de trou qui suit la plateforme 
     if score>40:
         plateforme.tonneau = random.randint (1,4)
     else : plateforme.tonneau = 2
@@ -86,10 +86,17 @@ def move2(listeplateforme,speed,dt):
         if i[5]>0:#plateforme.trou(la tempo)
             i[5]-=(speed/3)*dt   
 
+def move3(listeplateforme,speed,dt):
+    for i in listeplateforme:
+        i[1]+=speed*dt
+
+
 def reduire (listeplateforme,nbr) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse
+    diminution = -listeplateforme[nbr][1] #valeur de x negative (indique le depassement de cbm de carre de cette derniere)
     if len(listeplateforme[nbr][0])>0:
         listeplateforme[nbr][0]=''
+    listeplateforme[nbr][3]-=diminution
     for i in range (int(listeplateforme[nbr][3])): #regenere une plateforme de la bonne taille 
         listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
     

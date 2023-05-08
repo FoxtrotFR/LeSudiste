@@ -63,17 +63,17 @@ def interact():
 		c = sys.stdin.read(1)
 		if c == 'm':         
 			quitGame()	
-		elif c==' ' and players.plateforme == -1 :  # si la touche entré est appuyé et le players est sur une plateforme
-			players.memoireup=26
-		elif c=='q' : # si la touche q est appuyéez
+		elif c==' ' and players.plateforme == -1 and game.gravite == 1:  # si la touche entré est appuyé et le players est sur une plateforme
+			players.memoireup=22
+		elif c=='q' and game.gravite==2 : # si la touche q est appuyéez
 			players.left = 1
 			players.right=0
-		elif c=='d' : # si la touche d est appuyée 
+		elif c=='d'  and game.gravite == 2: # si la touche d est appuyée 
 			players.right = 1
 			players.left=0
 		elif c=='\n' : # si la touche entré est appuyée
 			game.start=1
-			frame.display_frames(intro,delay=5)
+			frame.display_frames(intro,delay=0.1)
 			while not frame.get_frame_finished(intro):
 				 time.sleep(0.1)
 			
@@ -83,7 +83,7 @@ def isData():
 	return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
 def run():
-	global timeStep, game,speed,listeplateforme, listefrites,players
+	global timeStep, game,speed,listeplateforme, listefrites,players,listetonneau
 	#Boucle de simulation	
 	while 1:
 		if game.start == 0:
@@ -97,8 +97,18 @@ def run():
 				listeplateforme=[['____________________________________________________________',50,25,60,0,0,4]]
 				listefrites=[]
 				players.y =35 #imposer la ligne du players 
-			elif game.score>10: #changer la gravité
+				game.gravite=2
+			elif game.score>10 and game.score<20: #changer la gravité
 				move2()
+			elif int(game.score)==20:
+				listefrites =[]
+				listeplateforme = [['______________________________________________________________________',80,25,70,0,10,4]]
+				players.x=140
+				players.y=10
+				game.gravite=1
+				listetonneau=[]
+			elif game.score>20:
+				move3()
 				
 			
 			show()
@@ -187,7 +197,7 @@ def move1 ():
 	if game.score>20: #si le score est atteint 
 		if len(listefrites)==0: 
 			frite = Frites.create()
-			listefrites=Frites.fritliste(listefrites,frite,0)
+			listefrites=Frites.fritliste(listefrites,frite,0) #0 correspond à  l'état de la frite, ici en diagonale
 		elif len (listefrites)<10 and listefrites[len(listefrites)-1][3]==0: #creer une frite 
 			frite = Frites.create()
 			listefrites=Frites.fritliste(listefrites,frite,0)
@@ -216,8 +226,8 @@ def move1 ():
 				if int(listefrites[i][2])==int(listeplateforme[c][2]) and int (listeplateforme[c][1])<= int(listefrites[i][1])<= int(listeplateforme[c][1]+len(listeplateforme[c][0])):
 					deletefrite=1
 					positionfrite=i
-			if deletefrite==1:
-				del listefrites[positionfrite]
+		if deletefrite==1:
+			del listefrites[positionfrite]
 
 	#augmenter la vitesse
 	speed = Game.speedup(speed)
@@ -316,10 +326,6 @@ def move2():
 		del listetonneau[positiontonneau]
 
 
-
-
-	
-
 	#COLLISION
 	delete = 0
 	position = 0
@@ -346,15 +352,43 @@ def move2():
 		players.x=150
 		players.right=0
 
-	#collision frite
-
-
-
 	#remettre à 0 les deplacements
 	players.left = 0
 	players.right = 0
 
+def move3():
+	global speed,gravite, players, listefrites, listeplateforme,game,timeStep,listetonneau
+
+	#bouger les plateformes 
+	Plateforme.move3(listeplateforme,speed,timeStep)
+
 	
+
+	#gerer deplacement du players 
+	players.plateforme=0 
+	if int(players.y)+3== 41 : #collision avec le sol
+		gameover()
+	elif int(players.y)==8 : #collision avec le  plafond 
+		players.memoireup=0 #appliquer direct la gravité
+	for i in listeplateforme : #collision lorsque le player est sur la plateforme(peut sauter)
+		for a in range (3):
+			if int(players.y)+3 == int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])): #ne plus appliquer la gravité au contact d'une plateforme
+				players.plateforme=-1
+			elif int(players.y)==int(i[2]) and int(i[1])<=int(players.x)+1 <= int( i[1]+len(i[0])) : #collision par dessous une plateforme impossible 
+				players.memoireup=0 #si la tete touche
+			for b in range (1,3): #si le corps touche
+				if int (players.y)+b==int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])) : 
+					players.memoireup=0
+
+	
+	
+	
+	if players.plateforme==0 and players.memoireup==0: #appliquer la gravité
+		Players.playersdown(players) 
+	elif players.memoireup!=0: #faire le saut du player
+		Players.up(players)
+		players.memoireup-=1
+
 
 
 	

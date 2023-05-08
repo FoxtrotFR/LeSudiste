@@ -15,7 +15,7 @@ def create ():
     frite.x = 143
     frite.y = 11
     frite.look = ['/','|',"\\"]
-    frite.tempo =random.randint (40,70)
+    frite.tempo =random.randint (50,100)
     frite.speed = random.randint (15,30)
     
     return frite
