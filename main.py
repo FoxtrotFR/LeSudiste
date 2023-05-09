@@ -230,7 +230,7 @@ def move1 ():
 			del listefrites[positionfrite]
 
 	#augmenter la vitesse
-	speed = Game.speedup(speed)
+	speed = Game.speedup(speed)_i
 	
 def move2():
 	global speed,gravite, players, listefrites, listeplateforme,game,timeStep,listetonneau
