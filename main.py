@@ -102,7 +102,7 @@ def run():
 				move2()
 			elif int(game.score)==20:
 				listefrites =[]
-				listeplateforme = [['______________________________________________________________________',80,25,70,0,10,4]]
+				listeplateforme = [['______________________________________________________________________',80,25,70,80,10,4],['______________________________________________________________________',10,35,70,80,0,4]]
 				players.x=140
 				players.y=10
 				game.gravite=1
@@ -156,7 +156,7 @@ def move1 ():
 				delete = 1
 				position =b
 		else :	
-			listeplateforme[b]=Plateforme.augmenter(listeplateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct auglenter)
+			listeplateforme[b]=Plateforme.augmenter(listeplateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct augmenter)
 	if delete ==1 :
 		del listeplateforme[position]		
 
@@ -230,7 +230,7 @@ def move1 ():
 			del listefrites[positionfrite]
 
 	#augmenter la vitesse
-	speed = Game.speedup(speed)_i
+	speed = Game.speedup(speed)
 	
 def move2():
 	global speed,gravite, players, listefrites, listeplateforme,game,timeStep,listetonneau
@@ -363,8 +363,7 @@ def move3():
 	Plateforme.move3(listeplateforme,speed,timeStep)
 
 	
-
-	#gerer deplacement du players 
+	#gerer collision palyers
 	players.plateforme=0 
 	if int(players.y)+3== 41 : #collision avec le sol
 		gameover()
@@ -379,15 +378,38 @@ def move3():
 			for b in range (1,3): #si le corps touche
 				if int (players.y)+b==int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])) : 
 					players.memoireup=0
-
 	
-	
-	
+	#gerer le deplacement du players
 	if players.plateforme==0 and players.memoireup==0: #appliquer la gravité
 		Players.playersdown(players) 
 	elif players.memoireup!=0: #faire le saut du player
 		Players.up(players)
 		players.memoireup-=1
+
+	#faire creation de plateforme
+	derniereplat=len(listeplateforme)-1
+	if listeplateforme[derniereplat][5]<=0: #regarder si le trou est  egal à 0 et donc creer une nouvelle plateforme 
+		plateforme = Plateforme.create3()
+		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
+	
+	#gerer apparition et disparition de plateforme 
+	delete = 0
+	position =0
+	for b in range (len(listeplateforme)) :	
+		if int(listeplateforme[b][1])+int(listeplateforme[b][3])>153: #regarde si la plateforme arrive en bout de course et on la fait disparaitre petit à petit 
+			listeplateforme[b]=Plateforme.reduire3(listeplateforme,b)
+			if len(listeplateforme[b][0])==0 : #on la supprime quand il y a plus rien 
+				delete = 1
+				position = b
+		else :	
+			listeplateforme[b]=Plateforme.augmenter3(listeplateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct augmenter)
+	if delete ==1 :
+		del listeplateforme[position]
+	
+
+			
+			
+	
 
 
 

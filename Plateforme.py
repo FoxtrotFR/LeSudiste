@@ -46,6 +46,18 @@ def create2():
     plateforme.taille=0
     return plateforme 
 
+def create3 (): #ceer le type plateforme
+    plateforme = Plateforme()
+    plateforme.x = 0
+    plateforme.y =random.randint (32,39)  #position en y de la plateforme 
+    plateforme.lenth=random.randint (70,80) #taille total de la plateforme 
+    plateforme.look = ''
+    plateforme.taille =0 #taille actuel de plateforme 
+    plateforme.trou = random.randint(10,17) #taille de trou qui suit la plateforme 
+    plateforme.tonneau = 2
+    plateforme.ton = ''
+
+    return plateforme
     
 
 def show(listeplateforme,nbr):
@@ -90,19 +102,40 @@ def move3(listeplateforme,speed,dt):
     for i in listeplateforme:
         i[1]+=speed*dt
 
+def reduire3(listeplateforme,nbr):
+    #reduire la taile de plateforme pour la fiare disparaitre 
+    diminution = listeplateforme[nbr][1]+listeplateforme[nbr][3]-152
+    listeplateforme[nbr][0]=''
+    listeplateforme[nbr][3]-=diminution
+    for i  in range (int(listeplateforme[nbr][3])):
+        listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
+    return listeplateforme[nbr]
+
+def augmenter3(listeplateforme, nbr,speed, dt):
+    if int(listeplateforme[nbr][4])<=listeplateforme[nbr][3]: #4: plateforme.taille et 3 : plateforme.lenth
+        
+        rajout = int (listeplateforme[nbr][1])
+        
+        for i in range (rajout):
+            listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
+        listeplateforme[nbr][4]= len(listeplateforme[nbr][0])
+        listeplateforme[nbr][1]=0
+    else:
+        listeplateforme[nbr][5]-= speed*dt #reduire le trou pour la nouvelle plateforme 
+        listeplateforme[nbr][4] = listeplateforme[nbr][3]
+
+    return listeplateforme[nbr]
+
 
 def reduire (listeplateforme,nbr) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse
     diminution = -listeplateforme[nbr][1] #valeur de x negative (indique le depassement de cbm de carre de cette derniere)
-    if len(listeplateforme[nbr][0])>0:
+    if len(listeplateforme[nbr][0])>0: #voir si inutile 
         listeplateforme[nbr][0]=''
     listeplateforme[nbr][3]-=diminution
     for i in range (int(listeplateforme[nbr][3])): #regenere une plateforme de la bonne taille 
         listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
-    
     listeplateforme[nbr][1]=0 #remet x à 0
-    
-    
     return listeplateforme[nbr]
     
 
@@ -112,12 +145,8 @@ def augmenter(listeplateforme, nbr,speed, dt):
         rajout =int (listeplateforme[nbr][4]- len(listeplateforme[nbr][0]))
         for i in range (rajout):
             listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
-
-    
     else:
         listeplateforme[nbr][5]-= speed*dt #reduire le trou pour la nouvelle plateforme 
         listeplateforme[nbr][4] = listeplateforme[nbr][3]
-
-
 
     return listeplateforme[nbr]
