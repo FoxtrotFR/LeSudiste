@@ -34,11 +34,6 @@ def show(ennemi):
     
     
     
-      
-    
-#test validé
-#if __name__=="__main__":
-#    ennemi = create("ennemi.txt",10,10)
-#    show(ennemi)
-    
-    
+def setposition(x,ennemi):
+    ennemi.x=x
+    return ennemi
