@@ -86,7 +86,7 @@ def show (menu):
     sys.stdout.write(txt)   #se placer a la position du nom 
 
 
-def MenuGameOver(score):
+def menu_gameover(score):
     global username
     Game.showbackground()
     x=str(71)
@@ -125,12 +125,12 @@ def MenuGameOver(score):
     x=str(0)
     txt="\033["+y+";"+x+"H" #placer le curseur
     sys.stdout.write(txt)   #se placer a la position du nom 
-    username=user_text
+    return user_text
 
 
 
 print(username)
 #test 
 if __name__=="__main__":
-   MenuGameOver(500)
+   menu_gameover(500)
     
