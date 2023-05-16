@@ -114,7 +114,7 @@ def reduire3(listeplateforme,nbr):
 def augmenter3(listeplateforme, nbr,speed, dt):
     if int(listeplateforme[nbr][4])<=listeplateforme[nbr][3]: #4: plateforme.taille et 3 : plateforme.lenth
         
-        rajout = int (listeplateforme[nbr][1])
+        rajout = int(listeplateforme[nbr][1])-len(listeplateforme[nbr][0])
         
         for i in range (rajout):
             listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'

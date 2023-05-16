@@ -102,7 +102,7 @@ def run():
 				move2()
 			elif int(game.score)==20:
 				listefrites =[]
-				listeplateforme = [['______________________________________________________________________',80,25,70,80,10,4],['______________________________________________________________________',10,35,70,80,0,4]]
+				listeplateforme = [['______________________________________________________________________',80,25,70,80,10,4]]
 				players.x=140
 				players.y=10
 				game.gravite=1
@@ -387,10 +387,12 @@ def move3():
 		players.memoireup-=1
 
 	#faire creation de plateforme
+	"""
 	derniereplat=len(listeplateforme)-1
 	if listeplateforme[derniereplat][5]<=0: #regarder si le trou est  egal à 0 et donc creer une nouvelle plateforme 
 		plateforme = Plateforme.create3()
 		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
+		"""
 	
 	#gerer apparition et disparition de plateforme 
 	delete = 0
