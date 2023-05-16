@@ -12,6 +12,7 @@ import sys
 import Scoreboard
 
 scoreboard = Scoreboard.create_from_csv(csv_filename="./test.csv", score_column_number=1)
+username=""
 
 #creer le menu
 def create ( scoreboard,regles="regles.txt"):
@@ -85,9 +86,51 @@ def show (menu):
     sys.stdout.write(txt)   #se placer a la position du nom 
 
 
+def menu_gameover(score):
+    global username
+    Game.showbackground()
+    x=str(71)
+    y=str(5)
+    txt="\033["+y+";"+x+"H"
+    sys.stdout.write(txt)
+    sys.stdout.write("LE SUDISTE")
+    x=str(71)
+    y=str(15)
+    txt="\033["+y+";"+x+"H"
+    sys.stdout.write(txt)
+    sys.stdout.write("\033[91mGAME OVER\033[0m")
+    x=str(48)
+    y=str(17)
+    txt="\033["+y+";"+x+"H"
+    sys.stdout.write(txt)
+    sys.stdout.write("Bravo, Tu as bien joué, tu as fait \033[93m" + str(score) + "\033[0m, C'est un beau score !")
+    x=str(55)
+    y=str(20)
+    txt="\033["+y+";"+x+"H"
+    sys.stdout.write(txt)
+    sys.stdout.write("Tape ton pseudo pour sauvegarder ton score :")
+    x=str(60)
+    y=str(22)
+    txt="\033["+y+";"+x+"H"
+    sys.stdout.write(txt)
+    sys.stdout.write("Pseudo : ")
+    user_text = input()  # Demande à l'utilisateur de saisir le texte
+    x = str(70)
+    y = str(22)
+    txt = "\033["+y+";"+x+"H"
+    sys.stdout.write(txt)
+    sys.stdout.write(user_text)  # Affiche le texte saisi par l'utilisateur
+    #Curseur Fin de BackGround
+    y=str(42)
+    x=str(0)
+    txt="\033["+y+";"+x+"H" #placer le curseur
+    sys.stdout.write(txt)   #se placer a la position du nom 
+    return user_text
 
+
+
+print(username)
 #test 
 if __name__=="__main__":
-   menu = create(0)
-   show(menu)
+   menu_gameover(500)
     

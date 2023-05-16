@@ -26,6 +26,7 @@ score = None
 listefrites = None 
 intro = None
 listetonneau = None 
+username = None
 
 old_settings = termios.tcgetattr(sys.stdin)
 
@@ -118,7 +119,7 @@ def show ():
 		Menu.show(menu)
 		sys.stdout.flush() # vider la mémoire tampon
 
-	if game.start==1:
+	elif game.start==1:
 		Game.showscore(game)
 		Players.show(players)
 		Ennemi.show(ennemi)
@@ -327,7 +328,16 @@ def move_left():
 	
 
 			
-			
+def disable_echo():
+    # Sauvegarder la configuration actuelle des paramètres du terminal
+    global old_settings
+    old_settings = termios.tcgetattr(sys.stdin)
+    tty.setcbreak(sys.stdin.fileno())
+
+def enable_echo():
+    global old_settings
+    # Restaurer la configuration des paramètres du terminal
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
 	
 
 
@@ -338,13 +348,15 @@ def move_left():
 
 
 		
-def gameover (): # en cas de defaite relancer le jeu au menu
-	global players, game, score 
-	game.start=0
-	players.y=10
-	game.score = 0
-	
-
+def gameover():
+    global players, game, username
+    game.start = 2
+    enable_echo() 
+    Menu.menu_gameover(int(game.score))
+    disable_echo() 
+    game.start = 0
+    players.y = 10
+    game.score = 0
 
 def quitGame():	
 	
@@ -363,3 +375,11 @@ def quitGame():
 #les test 
 init()
 run()
+
+
+'''
+rows, columns = os.popen('stty size', 'r').read().split()
+
+    if int(columns) < 80 or int(rows) < 20:
+        print("\033[31mMettre en Plein Ecran\033[0m")
+'''
