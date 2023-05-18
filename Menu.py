@@ -16,11 +16,11 @@ scoreboard = Scoreboard.create_from_csv(csv_filename="./test.csv", score_column_
 #creer le menu
 def create ( scoreboard,regles="regles.txt"):
     menu = Menu()
-    menu.name = "LE SUDISTE"
+    menu.name = "\033[33mLE SUDISTE\033[0m"
     menu.name_y=5
     menu.name_x=71
 
-    menu.jouer = "Appuyer sur entrer pour commencer le jeu"
+    menu.jouer = "\033[1m\033[31mAppuyer sur entrer pour commencer le jeu\033[0m"
     menu.jouer_x=80
     menu.jouer_y=15
 
@@ -91,7 +91,7 @@ def menu_gameover(score):
     y=str(5)
     txt="\033["+y+";"+x+"H"
     sys.stdout.write(txt)
-    sys.stdout.write("LE SUDISTE")
+    sys.stdout.write("\033[33mLE SUDISTE\033[0m")
     x=str(71)
     y=str(15)
     txt="\033["+y+";"+x+"H"

@@ -85,10 +85,14 @@ def isData():
 def run():
 	global timeStep, game,speed,listeplateforme, listefrites,players,listetonneau,ennemi
 	#Boucle de simulation	
+	is_menu_active = True  # Variable pour contrôler l'affichage du menu
+    # Boucle de simulation
 	while 1:
 		if game.start == 0:
-			interact()
-			show()
+			if is_menu_active:  # Afficher le menu uniquement lorsque nécessaire
+				show()
+				is_menu_active = False  # Désactiver l'affichage du menu après l'avoir montré une fois
+			interact()  # Afficher le jeu à chaque itération même lorsque le menu est actif
 		else : 
 			interact()
 			if game.score <100: #gravité initiale 
