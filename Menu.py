@@ -12,7 +12,6 @@ import sys
 import Scoreboard
 
 scoreboard = Scoreboard.create_from_csv(csv_filename="./test.csv", score_column_number=1)
-username=""
 
 #creer le menu
 def create ( scoreboard,regles="regles.txt"):
@@ -87,7 +86,6 @@ def show (menu):
 
 
 def menu_gameover(score):
-    global username
     Game.showbackground()
     x=str(71)
     y=str(5)
@@ -125,11 +123,10 @@ def menu_gameover(score):
     x=str(0)
     txt="\033["+y+";"+x+"H" #placer le curseur
     sys.stdout.write(txt)   #se placer a la position du nom 
-    return user_text
+    Scoreboard.add_score(user_text, score)
 
 
 
-print(username)
 #test 
 if __name__=="__main__":
    menu_gameover(500)

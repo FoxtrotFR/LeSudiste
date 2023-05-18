@@ -9,6 +9,7 @@ import time
 import select
 import tty
 import termios
+import os
 
 import frame 
 import Players
@@ -27,6 +28,7 @@ listefrites = None
 intro = None
 listetonneau = None 
 username = None
+rows, columns = os.popen('stty size', 'r').read().split()
 
 old_settings = termios.tcgetattr(sys.stdin)
 
@@ -116,22 +118,25 @@ def run():
 
 
 def show ():
-	global ennemi,players, game, menu,listeplateforme
-	if game.start == 0 :
-		Menu.show(menu)
-		sys.stdout.flush() # vider la mémoire tampon
+	global ennemi,players, game, menu,listeplateforme, rows, columns
+	if int(columns) < 80 or int(rows) < 20:
+		print("\033[31mMettre en Plein Ecran\033[0m")
+	else:
+		if game.start == 0 :
+			Menu.show(menu)
+			sys.stdout.flush() # vider la mémoire tampon
 
-	elif game.start==1:
-		Game.showscore(game)
-		Players.show(players)
-		Ennemi.show(ennemi)
-		for i in range (len(listeplateforme)):
-			Plateforme.show(listeplateforme,i)
-		for i in range(len(listefrites)):
-			Frites.show(listefrites,i)
-		for i in listetonneau:
-			Tonneau.show(i)
-		sys.stdout.flush() # vider la mémoire tampon
+		elif game.start==1:
+			Game.showscore(game)
+			Players.show(players)
+			Ennemi.show(ennemi)
+			for i in range (len(listeplateforme)):
+				Plateforme.show(listeplateforme,i)
+			for i in range(len(listefrites)):
+				Frites.show(listefrites,i)
+			for i in listetonneau:
+				Tonneau.show(i)
+			sys.stdout.flush() # vider la mémoire tampon
 
 
 
