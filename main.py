@@ -65,7 +65,7 @@ def interact():
 		if c == 'm':         
 			quitGame()	
 		elif c==' ' and players.plateforme == -1 and game.gravite == 1:  # si la touche entré est appuyé et le players est sur une plateforme
-			players.memoireup=22
+			players.memoireup=11
 		elif c=='q' and game.gravite==2 : # si la touche q est appuyéez
 			players.left = 1
 			players.right=0
@@ -169,44 +169,16 @@ def move1 ():
 	if delete ==1 :
 		del listeplateforme[position]		
 
-	
-	
-	#gerer les collision du player
-	players.plateforme=0 
-	if int(players.y)+3== 41 : #collision avec le sol
+	#gerer les collision et deplacement du player
+	Players.move(players,1)
+	gamover,players=Players.collision(players,listeplateforme,1)				
+	if gamover == 1:
 		gameover()
-	elif int(players.y)==8 : #collision avec le  plafond 
-		players.memoireup=0 #appliquer direct la gravité
-	for i in listeplateforme : #collision lorsque le player est sur la plateforme(peut sauter)
-		for a in range (3):
-			if int(players.y)+3 == int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])): #ne plus appliquer la gravité au contact d'une plateforme
-				players.plateforme=-1
-			elif int(players.y)==int(i[2]) and int(i[1])<=int(players.x)+1 <= int( i[1]+len(i[0])) : #collision par dessous une plateforme impossible 
-				players.memoireup=0 #si la tete touche
-			for b in range (1,3): #si le corps touche
-				if int (players.y)+b==int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])) : 
-					players.memoireup=0
-		#collision avec un tonneau
-		if i[6]==1:
-			for c in range (3):
-				for d in range(3):
-					if int(players.y)+c==int(i[7].y) and int(players.x)+d==int (i[7].x)+1:
-						gameover()
-					
-		
-	#gerer deplacement player
-	if players.plateforme==0 and players.memoireup==0: #appliquer la gravité (0 pas sur palteforme)
-		Players.playersdown(players) 
-	elif players.memoireup!=0: #faire le saut du player
-		Players.up(players)
-		players.memoireup-=1
-
 	
-	#gerer deplacement des frites 
+	#gerer les frites 
 	if game.score>20: #si le score est atteint 
 		Frites.creation(listefrites,15,50,100)
 		Frites.move(listefrites,gravite,timeStep)
-	
 	#gerer les collision des frites
 		gamover,listefrites=Frites.collision(listefrites,listeplateforme,players) 
 		if gamover==1:
@@ -222,12 +194,9 @@ def move2(scoreinit):
 	positiontonneau = 0
 
 	#gerer mouvement du players
-	if players.right !=0 : #bouger le players vers la droite si la touche est appuyé
-		Players.right(players)
-		players.right -=1
-	elif players.left !=0 :  #bouger le players vers la gauche si la touche est appuyé
-		Players.left (players)
-		players.left -=1
+	Players.move(players,2)
+	#gerer les collision du palyers
+	Players.collision(players,listeplateforme,2)
 
 	#gerer appartition des plateformes
 	dernierplatef=len(listeplateforme)-1
@@ -303,13 +272,6 @@ def move2(scoreinit):
 			for b in range(3):
 				if int(players.y)+a==int(i[2]) and int(i[1])<=int(players.x)+b<=int(i[1]+i[3]): #collision avce le corps 
 					gameover()
-	#collision joueur avec les murs 
-	if int(players.x)<=1:
-		players.x=1
-		players.left=0
-	elif players.x>=150:
-		players.x=150
-		players.right=0
 
 def move3():
 	global speed,gravite, players, listefrites, listeplateforme,game,timeStep,listetonneau
