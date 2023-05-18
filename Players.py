@@ -58,42 +58,5 @@ def playersdown (players):
     players.y= y+(players.gravite*players.dt)
     return players.y
 
-def players_move(players):
-    #gerer deplacement player
-    if players.right != 0 :
-        right(players)
-        players.right -=1
-    elif players.left !=0 :  #bouger le players vers la gauche si la touche est appuyé
-        left (players)
-        players.left -= 1
-    elif players.plateforme==0 and players.memoireup==0: #appliquer la gravité (0 pas sur palteforme)
-        playersdown(players) 
-    elif players.memoireup!=0: #faire le saut du player
-        up(players)
-        players.memoireup-= 1
 
-def collision(players,listeplateforme):
-    gamover=0
-    players.plateforme=0 
-    if int(players.y)+3== 41 : #collision avec le sol
-        gamover=1
-    elif int(players.y)==8 : #collision avec le  plafond 
-        players.memoireup=0 #appliquer direct la gravité
-    for i in listeplateforme : #collision lorsque le player est sur la plateforme(peut sauter)
-        for a in range (3):
-            if int(players.y)+3 == int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])): #ne plus appliquer la gravité au contact d'une plateforme
-                players.plateforme=-1
-            elif int(players.y)==int(i[2]) and int(i[1])<=int(players.x)+1 <= int( i[1]+len(i[0])) : #collision par desous uen plateforme
-                players.memoireup=0 #si la tete touche
-            for b in range (1,3): #si le corps touche
-                if int (players.y)+b==int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])) : 
-                    players.memoireup=0
-		#collision avec un tonneau
-        if i[6]==1:
-            for c in range (3):
-                for d in range(3):
-                    if int(players.y)+c==int(i[7].y) and int(players.x)+d==int (i[7].x)+1:
-                        gamover=1
-    return gamover,listeplateforme
-
-                                    
+   
