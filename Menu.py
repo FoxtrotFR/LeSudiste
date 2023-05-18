@@ -47,7 +47,7 @@ def show (menu):
     y = str(int(menu.jouer_y)-1)
     txt = "\033["+y+";"+x+"H"
     sys.stdout.write(txt)
-    sys.stdout.write("SCOREBOARD")
+    sys.stdout.write("\033[36mSCOREBOARD\033[0m")
     for i in range(len(top_scores)):
         x = str(int(menu.jouer_x)-50)
         y = str(int(menu.jouer_y)+i)

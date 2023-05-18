@@ -17,7 +17,7 @@ import os
 def create (speed,score):
     game = Game()
 
-    game.name = "Retrouvez le pastis"
+    game.name = "\033[33mRetrouvez le pastis\033[0m"
     game.name_x = 60
     game.name_y = 5
     game.gravite=1 #donner la gravite (on commence par la gravite initiale )

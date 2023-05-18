@@ -19,6 +19,7 @@ import Ennemi
 import Plateforme
 import Frites
 import Tonneau
+import Scoreboard
 
 timeStep= None
 speed= None 
@@ -379,15 +380,7 @@ def enable_echo():
     global old_settings
     # Restaurer la configuration des paramètres du terminal
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
-	
-
-
-
-	
-
-
-
-
+    
 		
 def gameover():
     global players, game, username

@@ -49,11 +49,11 @@ def create2():
 def create3 (): #ceer le type plateforme
     plateforme = Plateforme()
     plateforme.y =random.randint (32,39)  #position en y de la plateforme 
-    plateforme.lenth=random.randint (70,80) #taille total de la plateforme 
+    plateforme.lenth=random.randint (20,50) #taille total de la plateforme 
     plateforme.x = 0
     plateforme.look = ''
     plateforme.taille =0 #taille actuel de plateforme 
-    plateforme.trou = random.randint(10,17) #taille de trou qui suit la plateforme 
+    plateforme.trou = random.randint(10,14) #taille de trou qui suit la plateforme 
     plateforme.tonneau = 2
     plateforme.ton = ''
 
