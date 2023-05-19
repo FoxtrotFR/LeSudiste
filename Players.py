@@ -72,8 +72,7 @@ def right_left (players,signe) : #decaller vers la droite et la gauche
     set_x(players,x)
     return players.x
 
-def collision(players,listeplateforme,gravite):
-    gamover=0
+def collision(players,listeplateforme,gravite,gamover):
     if gravite ==1:
         players.plateforme=0 #appliquer direct la gravite 
         if int(players.y)+3== 41 : #collision avec le sol

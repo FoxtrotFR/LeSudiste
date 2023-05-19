@@ -49,8 +49,7 @@ def creation (listefrites,speedmin,tempomin,tempomax):
             listefrites[i][3]-=1
     return listefrites
 
-def collision (listefrites,listeplateforme,players):
-    gamover=0
+def collision (listefrites,listeplateforme,players,gamover):
     deletefrite = 0
     positionfrite= 0
     for i in range (len(listefrites)): 

@@ -8,6 +8,7 @@ Created on Tue Apr 11 10:58:47 2023
 class Plateforme : pass
 
 import Tonneau
+import Players
 import sys
 import random
 
@@ -149,3 +150,23 @@ def augmenter(listeplateforme, nbr,speed, dt):
         listeplateforme[nbr][4] = listeplateforme[nbr][3]
 
     return listeplateforme[nbr]
+
+def collision_down (listeplateforme,players,gamover):
+    delete = 0
+    position = 0
+	#collision plateforme avec le sol 
+    for i in range(len(listeplateforme)):
+        if int(listeplateforme[i][2])==41:
+            delete=1
+            position = i
+    if delete==1:
+        del listeplateforme[position]
+	#collision plateforme joueur 
+    for i in listeplateforme:
+        for a in range (3):
+            if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+1<=int(i[1]+i[3]): #contacte avec la tete
+                gamover=1
+            for b in range(3):
+                if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+b<=int(i[1]+i[3]): #collision avce le corps 
+                    gamover=1
+    return listeplateforme, gamover
