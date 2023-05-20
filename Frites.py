@@ -60,13 +60,9 @@ def collision (listefrites,listeplateforme,players,gamover):
                 if int(listefrites[i][2])==int(players.y)+b and int(listefrites[i][1])==int(players.x)+a: #si la frite touche le corps
                      gamover=1
 		#collision avec le sol ou le mur
-        if int (listefrites[i][2])==41 or int(listefrites[i][1]==0) :
+        if int (listefrites[i][2])>=41 or int(listefrites[i][1]<=1) or int(listefrites[i][1]>=152) :
             deletefrite=1
             positionfrite=i
-        for i in range (5):
-            if int(listefrites[i][1])==150+i: #dans le cas ou la frites touche le mur (comme il n'y a pas de position intermediare on est oblige de balayer un espace possible entre deux positions)
-                deletefrite=1
-                positionfrite=i
 		#collision avec plateforme
         for c in range(len(listeplateforme)):
              if int(listefrites[i][2])==int(listeplateforme[c][2]) and int (listeplateforme[c][1])<= int(listefrites[i][1])<= int(listeplateforme[c][1]+len(listeplateforme[c][0])):
