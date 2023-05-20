@@ -161,8 +161,8 @@ def move_right():
 	
 	#gerer les frites 
 	if game.score>20: #si le score est atteint 
-		Frites.creation(listefrites,15,50,100)
-		Frites.move(listefrites,force_gravite,timeStep)
+		Frites.creation(listefrites,15,50,100,11,143)
+		Frites.move(listefrites,force_gravite,timeStep,-1)
 	#gerer les collision des frites
 		gamover,listefrites=Frites.collision(listefrites,listeplateforme,players,gamover) 
 
@@ -193,8 +193,8 @@ def move_down():
 	#gerer les frites 
 	if game.score>Game.getscore_down(game)+20:
 		#création
-		Frites.creation (listefrites,0,15,30)
-		Frites.move(listefrites,force_gravite,timeStep)
+		Frites.creation (listefrites,0,15,30,11,143)
+		Frites.move(listefrites,force_gravite,timeStep,-1)
 		#gerer les collision des frites
 		gamover,listefrites=Frites.collision(listefrites,listeplateforme,players,gamover) 
 
@@ -228,9 +228,13 @@ def move_left():
 
 	#faire creation de plateforme
 	Plateforme.creation_right_left(listeplateforme,game.score,3)
-	#gerer apparition et disparition de plateforme 
-	Plateforme.live_right_left(listeplateforme,game.speed,timeStep,3,1)
+	Plateforme.live_right_left(listeplateforme,game.speed,timeStep,3,1) #gerer apparition et disparition de plateforme 
 	
+	#gerer creation des frites 
+	Frites.creation(listefrites,15,50,100,7,10)
+	Frites.move (listefrites,force_gravite,timeStep,1) #bouger les frites
+	gamover,listefrites = Frites.collision(listefrites,listeplateforme,players,gamover) 
+
 	#si le joueur est mort 
 	if gamover==1:
 		gameover()
