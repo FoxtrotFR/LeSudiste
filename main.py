@@ -262,9 +262,8 @@ def gameover():
     enable_echo() 
     Menu.menu_gameover(int(game.score))
     disable_echo() 
-    game.start = 0
-    players.y = 10
-    game.score = 0
+    init()
+    run()
 
 def quitGame():	
 	
