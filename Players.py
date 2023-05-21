@@ -72,7 +72,7 @@ def right_left (players,signe) : #decaller vers la droite et la gauche
     set_x(players,x)
     return players.x
 
-def collision(players,listeplateforme,gravite,gamover):
+def collision(players,liste_plateforme,gravite,gamover):
     if (gravite%2) ==1:
         players.plateforme=0 #appliquer direct la gravite 
         if int(players.y)+3== 41 : #collision avec le sol
@@ -80,7 +80,7 @@ def collision(players,listeplateforme,gravite,gamover):
         elif int(players.y)==8 : #collision avec le  plafond 
             players.memoireup=0 #appliquer direct la gravité
             
-        for i in listeplateforme : #collision lorsque le player est sur la plateforme(peut sauter)
+        for i in liste_plateforme : #collision lorsque le player est sur la plateforme(peut sauter)
             for a in range (3):
                 if int(players.y)+3 == int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])): #ne plus appliquer la gravité au contact d'une plateforme
                     players.plateforme=-1

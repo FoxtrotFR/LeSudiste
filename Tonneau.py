@@ -41,9 +41,9 @@ def create_up():
     tonneau.look = look.read().splitlines()
     look.close()
     return tonneau
-def listonneau(listetonneau,tonneau):
-    listetonneau.append(tonneau)
-    return listetonneau
+def listonneau(liste_tonneau,tonneau):
+    liste_tonneau.append(tonneau)
+    return liste_tonneau
 
 def show(tonneau):
     #afficher le tonneau ligne par ligne 
@@ -66,46 +66,46 @@ def movedown(tonneau,speed,dt):
 def moveup(tonneau,speed,dt):
     tonneau.y-=(speed*dt)/3
 
-def creation (listetonneau,game,timeStep,sens):
-    if len(listetonneau)==0: # si la liste est vide 
+def creation (liste_tonneau,game,timeStep,sens):
+    if len(liste_tonneau)==0: # si la liste est vide 
         if sens == 1:
             tonneau= create_down()
         if sens == 2:
             tonneau= create_up()
-        listetonneau = listonneau(listetonneau,tonneau)
-    derniertonneau=len(listetonneau)-1
-    if listetonneau[derniertonneau].tempo==0: #baisser le tempo du dernier tonneau
+        liste_tonneau = listonneau(liste_tonneau,tonneau)
+    derniertonneau=len(liste_tonneau)-1
+    if liste_tonneau[derniertonneau].tempo==0: #baisser le tempo du dernier tonneau
         if sens == 1:
             tonneau= create_down()
         if sens == 2:
             tonneau= create_up()
-        listetonneau = listonneau(listetonneau,tonneau)
-    listetonneau[derniertonneau].tempo-=1
+        liste_tonneau = listonneau(liste_tonneau,tonneau)
+    liste_tonneau[derniertonneau].tempo-=1
     if sens == 1:
-        for i in listetonneau:
+        for i in liste_tonneau:
             movedown(i,game.speed,timeStep) #bouger les tonneau
     if sens ==2 : 
-         for i in listetonneau:
+         for i in liste_tonneau:
             moveup(i,game.speed,timeStep) #bouger les tonneau
-    return listetonneau
+    return liste_tonneau
 
-def collision (listetonneau,players,gamover,sens):
+def collision (liste_tonneau,players,gamover,sens):
     position_tonneau = 0
     delete_tonneau = 0
     if sens == 1:
         #collision du tonneau avec le sol (le supprimer)
-        for i in range(len(listetonneau)):
-            if int(listetonneau[i].y)+3==41:
+        for i in range(len(liste_tonneau)):
+            if int(liste_tonneau[i].y)+3==41:
                 position_tonneau=i
                 delete_tonneau=1
     elif sens == 2:
-        for i in range(len(listetonneau)):
-            if int(listetonneau[i].y)+3==9:
+        for i in range(len(liste_tonneau)):
+            if int(liste_tonneau[i].y)+3==9:
                 position_tonneau=i
                 delete_tonneau=1  
                           
 	#collision tonneau avec le players
-    for i in listetonneau:
+    for i in liste_tonneau:
         if int(i.y)+3==int(Players.get_y(players)) and int(i.x)+1==int(Players.get_x(players)): # si la tete est au contact du bas du tonneau
             gamover=1
 		#regarder si le bas du tonneau est au contact du joueur

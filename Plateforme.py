@@ -66,151 +66,151 @@ def create_up():
     plateforme.taille=0
     return plateforme 
 
-def show(listeplateforme,nbr):
-    x=str(int(listeplateforme[nbr][1]))
-    y=str(int(listeplateforme[nbr][2]))
+def show(liste_plateforme,nbr):
+    x=str(int(liste_plateforme[nbr][1]))
+    y=str(int(liste_plateforme[nbr][2]))
     txt="\033["+y+";"+x+"H" #placer le curseur 
     sys.stdout.write(txt)#se placer à la position de la plateforme
-    sys.stdout.write(listeplateforme[nbr][0]) #afficher la plateforme
-    if listeplateforme[nbr][6]==1 and listeplateforme[nbr][7].x<150:
-        if listeplateforme[nbr][7].x<=1: #supprimer le tonneau 
-            listeplateforme[nbr][6]=2 
+    sys.stdout.write(liste_plateforme[nbr][0]) #afficher la plateforme
+    if liste_plateforme[nbr][6]==1 and liste_plateforme[nbr][7].x<150:
+        if liste_plateforme[nbr][7].x<=1: #supprimer le tonneau 
+            liste_plateforme[nbr][6]=2 
         else :
-            Tonneau.show(listeplateforme[nbr][7]) #afficher le tonneau
+            Tonneau.show(liste_plateforme[nbr][7]) #afficher le tonneau
 
-def listeplat (listeplateforme,plateforme):
-    listeplateforme.append([plateforme.look,plateforme.x,plateforme.y,plateforme.lenth,plateforme.taille, plateforme.trou,plateforme.tonneau,plateforme.ton]) #liste de 8 elements 
-    return listeplateforme
+def listeplat (liste_plateforme,plateforme):
+    liste_plateforme.append([plateforme.look,plateforme.x,plateforme.y,plateforme.lenth,plateforme.taille, plateforme.trou,plateforme.tonneau,plateforme.ton]) #liste de 8 elements 
+    return liste_plateforme
 
-def move_right_left(listeplateforme,speed,timeStep,signe):
-    for i in listeplateforme :
+def move_right_left(liste_plateforme,speed,timeStep,signe):
+    for i in liste_plateforme :
         i[1]+=speed*timeStep*signe #signe =-1 pour right et signe = 1 pour left
         if signe==-1:
             if i[6]==1: #bouger le tonneau s'il y en a un
                 Tonneau.move(i[7],speed,timeStep)
 
-def move_down(listeplateforme,speed,dt):
-    for i in listeplateforme :
+def move_down(liste_plateforme,speed,dt):
+    for i in liste_plateforme :
         i[2]+=(speed/3)*dt   
         if i[5]>0:#plateforme.trou(la tempo)
             i[5]-=(speed/3)*dt   
 
-def move_up(listeplateforme,speed,dt):
-    for i in listeplateforme :
+def move_up(liste_plateforme,speed,dt):
+    for i in liste_plateforme :
         i[2]-=(speed/3)*dt   
         if i[5]>0:#plateforme.trou(la tempo)
             i[5]-=(speed/3)*dt   
-def reduce_left(listeplateforme,nbr):
+def reduce_left(liste_plateforme,nbr):
     #reduire la taile de plateforme pour la fiare disparaitre 
-    diminution = listeplateforme[nbr][1]+listeplateforme[nbr][3]-152
-    listeplateforme[nbr][0]=''
-    listeplateforme[nbr][3]-=diminution
-    for i  in range (int(listeplateforme[nbr][3])):
-        listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
-    return listeplateforme[nbr]
+    diminution = liste_plateforme[nbr][1]+liste_plateforme[nbr][3]-152
+    liste_plateforme[nbr][0]=''
+    liste_plateforme[nbr][3]-=diminution
+    for i  in range (int(liste_plateforme[nbr][3])):
+        liste_plateforme[nbr][0]=liste_plateforme[nbr][0]+'_'
+    return liste_plateforme[nbr]
 
-def increase_left(listeplateforme, nbr,speed, dt):
-    if int(listeplateforme[nbr][3])>len(listeplateforme[nbr][0]): #0: plateforme.look et 3 : plateforme.lenth
-        rajout = int(listeplateforme[nbr][1])
-        listeplateforme[nbr][1] = listeplateforme[nbr][1]-rajout #sauvegarder la virgule (eviter que els plateformes s'ecartent avec le tps)
+def increase_left(liste_plateforme, nbr,speed, dt):
+    if int(liste_plateforme[nbr][3])>len(liste_plateforme[nbr][0]): #0: plateforme.look et 3 : plateforme.lenth
+        rajout = int(liste_plateforme[nbr][1])
+        liste_plateforme[nbr][1] = liste_plateforme[nbr][1]-rajout #sauvegarder la virgule (eviter que els plateformes s'ecartent avec le tps)
         for i in range (int(rajout)):
-            listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
+            liste_plateforme[nbr][0]=liste_plateforme[nbr][0]+'_'
     else:
-        listeplateforme[nbr][5]-= speed*dt #reduire le trou pour la nouvelle plateforme 
-    return listeplateforme[nbr]
+        liste_plateforme[nbr][5]-= speed*dt #reduire le trou pour la nouvelle plateforme 
+    return liste_plateforme[nbr]
 
 
-def reduce_right(listeplateforme,nbr) : 
+def reduce_right(liste_plateforme,nbr) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse
-    diminution = -listeplateforme[nbr][1] #valeur de x negative (indique le depassement de cbm de carre de cette derniere)
-    if len(listeplateforme[nbr][0])>0: #voir si inutile 
-        listeplateforme[nbr][0]=''
-    listeplateforme[nbr][3]-=diminution
-    for i in range (int(listeplateforme[nbr][3])): #regenere une plateforme de la bonne taille 
-        listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
-    listeplateforme[nbr][1]=0 #remet x à 0
-    return listeplateforme[nbr]
+    diminution = -liste_plateforme[nbr][1] #valeur de x negative (indique le depassement de cbm de carre de cette derniere)
+    if len(liste_plateforme[nbr][0])>0: #voir si inutile 
+        liste_plateforme[nbr][0]=''
+    liste_plateforme[nbr][3]-=diminution
+    for i in range (int(liste_plateforme[nbr][3])): #regenere une plateforme de la bonne taille 
+        liste_plateforme[nbr][0]=liste_plateforme[nbr][0]+'_'
+    liste_plateforme[nbr][1]=0 #remet x à 0
+    return liste_plateforme[nbr]
     
 
-def increase_right(listeplateforme, nbr,speed, dt):
-    if int(listeplateforme[nbr][4])<=listeplateforme[nbr][3]: #4: plateforme.taille et 3 : plateforme.lenth
-        listeplateforme[nbr][4]+= speed*dt
-        rajout =int (listeplateforme[nbr][4]- len(listeplateforme[nbr][0]))
+def increase_right(liste_plateforme, nbr,speed, dt):
+    if int(liste_plateforme[nbr][4])<=liste_plateforme[nbr][3]: #4: plateforme.taille et 3 : plateforme.lenth
+        liste_plateforme[nbr][4]+= speed*dt
+        rajout =int (liste_plateforme[nbr][4]- len(liste_plateforme[nbr][0]))
         for i in range (rajout):
-            listeplateforme[nbr][0]=listeplateforme[nbr][0]+'_'
+            liste_plateforme[nbr][0]=liste_plateforme[nbr][0]+'_'
     else:
-        listeplateforme[nbr][5]-= speed*dt #reduire le trou pour la nouvelle plateforme 
-        listeplateforme[nbr][4] = listeplateforme[nbr][3]
+        liste_plateforme[nbr][5]-= speed*dt #reduire le trou pour la nouvelle plateforme 
+        liste_plateforme[nbr][4] = liste_plateforme[nbr][3]
 
-    return listeplateforme[nbr]
+    return liste_plateforme[nbr]
 
-def collision_down (listeplateforme,players,gamover):
+def collision_down (liste_plateforme,players,gamover):
     delete = 0
     position = 0
 	#collision plateforme avec le sol 
-    for i in range(len(listeplateforme)):
-        if int(listeplateforme[i][2])==41:
+    for i in range(len(liste_plateforme)):
+        if int(liste_plateforme[i][2])==41:
             delete=1
             position = i
     if delete==1:
-        del listeplateforme[position]
+        del liste_plateforme[position]
 	#collision plateforme joueur 
-    for i in listeplateforme:
+    for i in liste_plateforme:
         for a in range (3):
             if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+1<=int(i[1]+i[3]): #contacte avec la tete
                 gamover=1
             for b in range(3):
                 if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+b<=int(i[1]+i[3]): #collision avce le corps 
                     gamover=1
-    return listeplateforme, gamover
-def collision_up (listeplateforme,players,gamover):
+    return liste_plateforme, gamover
+def collision_up (liste_plateforme,players,gamover):
     delete = 0
     position = 0
 	#collision plateforme avec le sol 
-    for i in range(len(listeplateforme)):
-        if int(listeplateforme[i][2])==9:
+    for i in range(len(liste_plateforme)):
+        if int(liste_plateforme[i][2])==9:
             delete=1
             position = i
     if delete==1:
-        del listeplateforme[position]
+        del liste_plateforme[position]
 	#collision plateforme joueur 
-    for i in listeplateforme:
+    for i in liste_plateforme:
         for a in range (3):
             if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+1<=int(i[1]+i[3]): #contacte avec la tete
                 gamover=1
             for b in range(3):
                 if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+b<=int(i[1]+i[3]): #collision avce le corps 
                     gamover=1
-    return listeplateforme, gamover
+    return liste_plateforme, gamover
 
-def creation_right_left(listeplateforme,score,gravite):
-    derniereplat=len(listeplateforme)-1
-    if listeplateforme[derniereplat][5]<=0:
+def creation_right_left(liste_plateforme,score,gravite):
+    derniereplat=len(liste_plateforme)-1
+    if liste_plateforme[derniereplat][5]<=0:
         if gravite==1:
             plateforme = create_right_left(score,gravite)
         elif gravite==3:
             plateforme= create_right_left(score,gravite)
-        listeplateforme=listeplat(listeplateforme,plateforme)  
-    return listeplateforme
+        liste_plateforme=listeplat(liste_plateforme,plateforme)  
+    return liste_plateforme
 
-def live_right_left(listeplateforme,timeStep,speed,gravite,signe):
-    move_right_left(listeplateforme,speed,timeStep,signe) #bouger les plateformes
+def live_right_left(liste_plateforme,timeStep,speed,gravite,signe):
+    move_right_left(liste_plateforme,speed,timeStep,signe) #bouger les plateformes
     delete = 0
     position =0
-    for b in range (len(listeplateforme)) :	
-        if (int(listeplateforme[b][1])<=0 and gravite==1) or (int(listeplateforme[b][1])+int(listeplateforme[b][3])>153 and gravite==3): #regarde si la plateforme arrive en bout de course et on la fait disparaitre petit à petit 
+    for b in range (len(liste_plateforme)) :	
+        if (int(liste_plateforme[b][1])<=0 and gravite==1) or (int(liste_plateforme[b][1])+int(liste_plateforme[b][3])>153 and gravite==3): #regarde si la plateforme arrive en bout de course et on la fait disparaitre petit à petit 
             if gravite ==1:
-                listeplateforme[b]=reduce_right(listeplateforme, b)
+                liste_plateforme[b]=reduce_right(liste_plateforme, b)
             elif gravite == 3:
-                listeplateforme[b]=reduce_left(listeplateforme, b)
-            if len(listeplateforme[b][0])==0 : #on la supprime quand il y a plus rien 
+                liste_plateforme[b]=reduce_left(liste_plateforme, b)
+            if len(liste_plateforme[b][0])==0 : #on la supprime quand il y a plus rien 
                 delete = 1
                 position =b
         else :
             if gravite == 1:
-                listeplateforme[b]=increase_right(listeplateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct augmenter)
+                liste_plateforme[b]=increase_right(liste_plateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct augmenter)
             elif gravite == 3:
-                listeplateforme[b]=increase_left(listeplateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct augmenter)
+                liste_plateforme[b]=increase_left(liste_plateforme,b,speed,timeStep) #creation de la plateforme (condition dans la fct augmenter)
     if delete ==1 :
-        del listeplateforme[position]
-    return listeplateforme
+        del liste_plateforme[position]
+    return liste_plateforme
