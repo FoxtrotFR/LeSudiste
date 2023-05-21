@@ -27,10 +27,7 @@ def show(ennemi):
         y=str(int(ennemi.y)+i)
         txt="\033["+y+";"+x+"H" #placer le curseur 
         sys.stdout.write(txt)#se placer à la position du personnage 
-
-
-
-        sys.stdout.write(ennemi.look[i]) #afficher la ligne 
+        sys.stdout.write("\033[91m" + ennemi.look[i] + "\033[0m") # afficher la ligne en rouge
     
     
     
