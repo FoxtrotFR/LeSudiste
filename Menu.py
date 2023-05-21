@@ -50,10 +50,10 @@ def show (menu):
     sys.stdout.write("\033[36mSCOREBOARD\033[0m")
     for i in range(len(top_scores)):
         x = str(int(menu.jouer_x)-50)
-        y = str(int(menu.jouer_y)+i)
+        y = str(int(menu.jouer_y)+2 +2*i)
         txt = "\033["+y+";"+x+"H"  # placer le curseur
         sys.stdout.write(txt)  # se placer à la position du score et du nom
-        sys.stdout.write(str(i+1) +".  " + top_player_names[i] + " : " + str(top_scores[i]))
+        sys.stdout.write(str(i+1) +".  " + "\033[33m" + top_player_names[i] + "\033[0m" + " : " + "\033[35m" + str(top_scores[i]) + "\033[0m")
 
     #Afficher le name à l'endroit donné 
     x=str(menu.name_x)
