@@ -27,10 +27,10 @@ def show (listefrites,nbr): #etat varie en focntion de la gravité (voir liste f
     sys.stdout.write(txt)#se placer à la position du personnage 
     sys.stdout.write(listefrites[nbr][0]) #afficher la frite
 
-def move (listefrites,gravite,dt,signe):
+def move (listefrites,gravite,dt,signe,up):
     for i in listefrites :
         i[1]+=i[4]*dt*signe #appliquer la vitesse lateral signe =-1 pour right et down signe = 1 pour left
-        i[2]+=(gravite*dt)/3 #appliquer la gravite(diminué)
+        i[2]+=(up*gravite*dt)/3 #appliquer la gravite(diminué), signe up =-1 pour une monte des frites
 
 def fritliste(listefrites,frite,etat):
     listefrites.append([frite.look[etat],frite.x,frite.y, frite.tempo,frite.speed]) #rajout d'une frite 
@@ -60,7 +60,7 @@ def collision (listefrites,listeplateforme,players,gamover):
                 if int(listefrites[i][2])==int(players.y)+b and int(listefrites[i][1])==int(players.x)+a: #si la frite touche le corps
                      gamover=1
 		#collision avec le sol ou le mur
-        if int (listefrites[i][2])>=41 or int(listefrites[i][1]<=1) or int(listefrites[i][1]>=152) :
+        if int (listefrites[i][2])>=41 or int(listefrites[i][1]<=1) or int(listefrites[i][1]>=152 or int(listefrites[i][2])<=9) :
             deletefrite=1
             positionfrite=i
 		#collision avec plateforme

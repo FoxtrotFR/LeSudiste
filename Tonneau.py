@@ -23,7 +23,7 @@ def create (lenthplat,y):
     look.close()
     return tonneau
 
-def create2():
+def create_down():
     tonneau=Tonneau()
     tonneau.x=random.randint(1,149)
     tonneau.y=8
@@ -32,7 +32,15 @@ def create2():
     tonneau.look = look.read().splitlines()
     look.close()
     return tonneau
-
+def create_up():
+    tonneau=Tonneau()
+    tonneau.x=random.randint(1,149)
+    tonneau.y=37
+    tonneau.tempo=random.randint(5,15)
+    look=open("tonneau.txt","r")
+    tonneau.look = look.read().splitlines()
+    look.close()
+    return tonneau
 def listonneau(listetonneau,tonneau):
     listetonneau.append(tonneau)
     return listetonneau
@@ -52,30 +60,49 @@ def getheight(tonneau): #renvoyer la hauteur du tonneau
 def move(tonneau,speed,dt):
     tonneau.x-=speed*dt
 
-def move2(tonneau,speed,dt):
+def movedown(tonneau,speed,dt):
     tonneau.y+=(speed*dt)/3
 
-def creation (listetonneau,game,timeStep):
+def moveup(tonneau,speed,dt):
+    tonneau.y-=(speed*dt)/3
+
+def creation (listetonneau,game,timeStep,sens):
     if len(listetonneau)==0: # si la liste est vide 
-        tonneau= create2()
+        if sens == 1:
+            tonneau= create_down()
+        if sens == 2:
+            tonneau= create_up()
         listetonneau = listonneau(listetonneau,tonneau)
     derniertonneau=len(listetonneau)-1
     if listetonneau[derniertonneau].tempo==0: #baisser le tempo du dernier tonneau
-        tonneau = create2()
+        if sens == 1:
+            tonneau= create_down()
+        if sens == 2:
+            tonneau= create_up()
         listetonneau = listonneau(listetonneau,tonneau)
     listetonneau[derniertonneau].tempo-=1
-    for i in listetonneau:
-        move2(i,game.speed,timeStep) #bouger les tonneau
+    if sens == 1:
+        for i in listetonneau:
+            movedown(i,game.speed,timeStep) #bouger les tonneau
+    if sens ==2 : 
+         for i in listetonneau:
+            moveup(i,game.speed,timeStep) #bouger les tonneau
     return listetonneau
 
-def collision (listetonneau,players,gamover):
+def collision (listetonneau,players,gamover,sens):
     position_tonneau = 0
     delete_tonneau = 0
-    #collision du tonneau avec le sol (le supprimer)
-    for i in range(len(listetonneau)):
-        if int(listetonneau[i].y)+3==41:
-            position_tonneau=i
-            delete_tonneau=1
+    if sens == 1:
+        #collision du tonneau avec le sol (le supprimer)
+        for i in range(len(listetonneau)):
+            if int(listetonneau[i].y)+3==41:
+                position_tonneau=i
+                delete_tonneau=1
+    elif sens == 2:
+        for i in range(len(listetonneau)):
+            if int(listetonneau[i].y)+3==9:
+                position_tonneau=i
+                delete_tonneau=1  
                           
 	#collision tonneau avec le players
     for i in listetonneau:

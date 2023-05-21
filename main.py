@@ -11,7 +11,7 @@ import tty
 import termios
 import os
 
-import frame 
+import Frame 
 import Players
 import Game
 import Menu
@@ -47,7 +47,7 @@ def init():
     ennemi = Ennemi.create (144,9)
     listeplateforme = [['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
     listefrites=[]
-    intro=frame.read_frames("intro.txt")
+    intro=Frame.read_frames("intro.txt")
     listetonneau = []
     
     
@@ -74,8 +74,8 @@ def interact():
 			players.left=0
 		elif c=='\n' : # si la touche entré est appuyée
 			game.start=1
-			frame.display_frames(intro,delay=0.1)
-			while not frame.get_frame_finished(intro):
+			Frame.display_frames(intro,delay=0.1)
+			while not Frame.get_frame_finished(intro):
 				 time.sleep(0.1)
 			
 		
@@ -113,10 +113,15 @@ def run():
 				game.gravite=3
 				listetonneau=[]
 				ennemi=Ennemi.setposition(2,ennemi)
-			elif game.score>Game.getscore_left(game):
+			elif game.score>Game.getscore_left(game) and game.score<Game.getscore_up(game):
 				move_left()
-				
-			
+			elif int(game.score) == Game.getscore_up(game):
+				listeplateforme=[['____________________________________________________________',50,35,60,0,0,4,'']]
+				listefrites=[]
+				players.y =15 #imposer la ligne du players 
+				game.gravite=2
+			elif game.score>Game.getscore_up(game):
+				move_up()
 			show()
 			Game.scoreup(game,game.speed)	
 			time.sleep(timeStep)
@@ -162,7 +167,7 @@ def move_right():
 	#gerer les frites 
 	if game.score>20: #si le score est atteint 
 		Frites.creation(listefrites,15,50,100,11,143)
-		Frites.move(listefrites,force_gravite,timeStep,-1)
+		Frites.move(listefrites,force_gravite,timeStep,-1,1)
 	#gerer les collision des frites
 		gamover,listefrites=Frites.collision(listefrites,listeplateforme,players,gamover) 
 
@@ -194,16 +199,16 @@ def move_down():
 	if game.score>Game.getscore_down(game)+20:
 		#création
 		Frites.creation (listefrites,0,15,30,11,143)
-		Frites.move(listefrites,force_gravite,timeStep,-1)
+		Frites.move(listefrites,force_gravite,timeStep,-1,1)
 		#gerer les collision des frites
 		gamover,listefrites=Frites.collision(listefrites,listeplateforme,players,gamover) 
 
 	#gerer les tonneaux
 	if game.score>Game.getscore_down(game)+10:
 		#creation des tonneaux
-		Tonneau.creation(listetonneau,game,timeStep)
+		Tonneau.creation(listetonneau,game,timeStep,1)
 		#collision des tonneaux
-		delete_tonneau,position_tonneau,gamover = Tonneau.collision(listetonneau,players,gamover)
+		delete_tonneau,position_tonneau,gamover = Tonneau.collision(listetonneau,players,gamover,1)
 	#suppression des tonneaux
 		if delete_tonneau==1:
 			del listetonneau[position_tonneau]
@@ -232,13 +237,56 @@ def move_left():
 	
 	#gerer creation des frites 
 	Frites.creation(listefrites,15,50,100,7,10)
-	Frites.move (listefrites,force_gravite,timeStep,1) #bouger les frites
+	Frites.move (listefrites,force_gravite,timeStep,1,1) #bouger les frites
 	gamover,listefrites = Frites.collision(listefrites,listeplateforme,players,gamover) 
 
 	#si le joueur est mort 
 	if gamover==1:
 		gameover()
 	
+	#augmenter la vitesse
+	game.speed = Game.speedup(game.speed)
+
+def move_up():
+	global force_gravite, players, listefrites, listeplateforme,game,timeStep,listetonneau
+
+	gamover= 0
+	#gerer mouvement du players
+	Players.move(players,2)
+	#gerer les collision du palyers
+	Players.collision(players,listeplateforme,2,gamover)
+
+	#gerer appartition des plateformes
+	dernierplatef=len(listeplateforme)-1
+	if listeplateforme[dernierplatef][5]<=0:
+		plateforme = Plateforme.create_up()#creer les plateformes
+		listeplateforme=Plateforme.listeplat(listeplateforme,plateforme)
+	#bouger les plateformes
+	Plateforme.move_up(listeplateforme,game.speed,timeStep)
+
+	#gerer les frites 
+	if game.score>Game.getscore_up(game)+20:
+		#création
+		Frites.creation (listefrites,0,15,30,36,143)
+		Frites.move(listefrites,force_gravite,timeStep,-1,-1)
+		#gerer les collision des frites
+		gamover,listefrites=Frites.collision(listefrites,listeplateforme,players,gamover) 
+
+	#gerer les tonneaux
+	if game.score>Game.getscore_up(game)+10:
+		#creation des tonneaux
+		Tonneau.creation(listetonneau,game,timeStep,2)
+		#collision des tonneaux
+		delete_tonneau,position_tonneau,gamover = Tonneau.collision(listetonneau,players,gamover,2)
+	#suppression des tonneaux
+		if delete_tonneau==1:
+			del listetonneau[position_tonneau]
+
+	#collision plateforme 
+	listeplateforme,gamover = Plateforme.collision_up(listeplateforme,players,gamover)
+	if gamover==1:
+		gameover()
+
 	#augmenter la vitesse
 	game.speed = Game.speedup(game.speed)
 	

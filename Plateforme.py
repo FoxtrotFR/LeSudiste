@@ -50,7 +50,21 @@ def create_down():
     plateforme.ton=''
     plateforme.taille=0
     return plateforme 
-    
+def create_up():
+    plateforme = Plateforme()
+    plateforme.x = random.randint (1,152)
+    plateforme.y = 40  #position en y de la plateforme 
+    plateforme.lenth = random.randint (50,70) #taille total de la plateforme 
+    while plateforme.x+plateforme.lenth >153:
+        plateforme.lenth-=2
+    plateforme.look = ''
+    for i in range (plateforme.lenth):
+        plateforme.look= plateforme.look+'_'
+    plateforme.trou=random.randint(10,20)
+    plateforme.tonneau=2
+    plateforme.ton=''
+    plateforme.taille=0
+    return plateforme 
 
 def show(listeplateforme,nbr):
     x=str(int(listeplateforme[nbr][1]))
@@ -81,6 +95,11 @@ def move_down(listeplateforme,speed,dt):
         if i[5]>0:#plateforme.trou(la tempo)
             i[5]-=(speed/3)*dt   
 
+def move_up(listeplateforme,speed,dt):
+    for i in listeplateforme :
+        i[2]-=(speed/3)*dt   
+        if i[5]>0:#plateforme.trou(la tempo)
+            i[5]-=(speed/3)*dt   
 def reduce_left(listeplateforme,nbr):
     #reduire la taile de plateforme pour la fiare disparaitre 
     diminution = listeplateforme[nbr][1]+listeplateforme[nbr][3]-152
@@ -131,6 +150,25 @@ def collision_down (listeplateforme,players,gamover):
 	#collision plateforme avec le sol 
     for i in range(len(listeplateforme)):
         if int(listeplateforme[i][2])==41:
+            delete=1
+            position = i
+    if delete==1:
+        del listeplateforme[position]
+	#collision plateforme joueur 
+    for i in listeplateforme:
+        for a in range (3):
+            if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+1<=int(i[1]+i[3]): #contacte avec la tete
+                gamover=1
+            for b in range(3):
+                if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+b<=int(i[1]+i[3]): #collision avce le corps 
+                    gamover=1
+    return listeplateforme, gamover
+def collision_up (listeplateforme,players,gamover):
+    delete = 0
+    position = 0
+	#collision plateforme avec le sol 
+    for i in range(len(listeplateforme)):
+        if int(listeplateforme[i][2])==9:
             delete=1
             position = i
     if delete==1:
