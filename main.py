@@ -29,11 +29,13 @@ intro = None
 liste_tonneau = None 
 username = None
 rows, columns = os.popen('stty size', 'r').read().split()
+left_right_frame=None
+up_down_frame=None
 
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi, force_gravite, score, liste_plateforme, liste_frites, liste_tonneau, intro,ennemi
+    global timeStep, menu, game, players, ennemi, force_gravite, score, liste_plateforme, liste_frites, liste_tonneau, intro,ennemi, left_right_frame, up_down_frame
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
@@ -48,6 +50,8 @@ def init():
     liste_plateforme = [['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
     liste_frites=[]
     intro=Frame.read_frames("intro.txt")
+    left_right_frame=Frame.read_frames("changement_left_right.txt")
+    up_down_frame=Frame.read_frames("changement_up_down.txt")
     liste_tonneau = []
     
     
@@ -87,6 +91,10 @@ def run():
 	global timeStep, game,liste_plateforme, liste_frites,players,liste_tonneau,ennemi
 	#Boucle de simulation	
 	is_menu_active = True  # Variable pour contrôler l'affichage du menu
+	frame_changement_right = True
+	frame_changement_left = True
+	frame_changement_down = True
+	frame_changement_up = True
     # Boucle de simulation
 	while 1:
 		if game.start == 0:
@@ -97,6 +105,9 @@ def run():
 		else : 
 			interact()
 			if game.score <Game.getscore_down(game): #gravité initiale 
+				if frame_changement_right == True:
+					Frame.display_frames(left_right_frame,delay=0.2)
+					frame_changement_right = False
 				move_right()
 			elif int(game.score)== Game.getscore_down(game): #renitialisé le jeu 
 				liste_plateforme=[['____________________________________________________________',50,25,60,0,0,4,'']]
@@ -104,6 +115,9 @@ def run():
 				players.y =35 #imposer la ligne du players 
 				game.gravite=2
 			elif game.score>Game.getscore_down(game) and game.score<Game.getscore_left(game): #changer la gravité
+				if frame_changement_down == True:
+					Frame.display_frames(up_down_frame,delay=0.2)
+					frame_changement_down = False
 				move_down()
 			elif int(game.score)==Game.getscore_left(game):
 				liste_frites =[]
@@ -114,6 +128,9 @@ def run():
 				liste_tonneau=[]
 				ennemi=Ennemi.setposition(2,ennemi)
 			elif game.score>Game.getscore_left(game) and game.score<Game.getscore_up(game):
+				if frame_changement_left == True:
+					Frame.display_frames(left_right_frame,delay=0.2)
+					frame_changement_left = False
 				move_left()
 			elif int(game.score) == Game.getscore_up(game):
 				liste_plateforme=[['____________________________________________________________',50,35,60,0,0,4,'']]
@@ -121,6 +138,9 @@ def run():
 				players.y =15 #imposer la ligne du players 
 				game.gravite=2
 			elif game.score>Game.getscore_up(game):
+				if frame_changement_up == True:
+					Frame.display_frames(up_down_frame,delay=0.2)
+					frame_changement_up = False
 				move_up()
 			show()
 			Game.scoreup(game,game.speed)	
