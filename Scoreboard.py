@@ -1,5 +1,10 @@
 import csv
 
+"""
+Created on Tue Apr 17 12:54:07 2023
+
+@author: Clément
+"""
 
 class ScoreBoard:
     pass
