@@ -23,7 +23,6 @@ import Scoreboard
 
 timeStep= None 
 force_gravite = None 
-score = None 
 liste_frites = None 
 intro = None
 liste_tonneau = None 
@@ -35,16 +34,15 @@ up_down_frame=None
 old_settings = termios.tcgetattr(sys.stdin)
 
 def init():
-    global timeStep, menu, game, players, ennemi, force_gravite, score, liste_plateforme, liste_frites, liste_tonneau, intro,ennemi, left_right_frame, up_down_frame
+    global timeStep, menu, game, players, ennemi, force_gravite, liste_plateforme, liste_frites, liste_tonneau, intro,ennemi, left_right_frame, up_down_frame
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
     timeStep=0.1
     speed = 10	
     force_gravite = 10
-    score = 0
     liste_plateforme=[]
 
     menu=Menu.create(0)
-    game = Game.create(speed,score)
+    game = Game.create(speed,1)
     players = Players.create(40,10,force_gravite,timeStep)
     ennemi = Ennemi.create (144,9)
     liste_plateforme = [['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
@@ -104,7 +102,16 @@ def run():
 			interact()  # Afficher le jeu à chaque itération même lorsque le menu est actif
 		else : 
 			interact()
-			if game.score <Game.getscore_down(game): #gravité initiale 
+			if int(game.score) == Game.getscore_right(game):
+				Game.getscore_up(game)
+				liste_frites=[]
+				liste_plateforme=[['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
+				liste_tonneau=[]
+				players.x=40
+				players.y=10
+				game.gravite=1
+
+			elif game.score <Game.getscore_down(game) and game.score >Game.getscore_right(game) : #gravité initiale 
 				if frame_changement_right == True:
 					Frames.display_frames(left_right_frame,delay=0.2)
 					frame_changement_right = False
@@ -112,8 +119,10 @@ def run():
 			elif int(game.score)== Game.getscore_down(game): #renitialisé le jeu 
 				liste_plateforme=[['____________________________________________________________',50,25,60,0,0,4,'']]
 				liste_frites=[]
+				liste_tonneau=[]
 				players.y =35 #imposer la ligne du players 
 				game.gravite=2
+				Game.setscore_right(game)
 			elif game.score>Game.getscore_down(game) and game.score<Game.getscore_left(game): #changer la gravité
 				if frame_changement_down == True:
 					Frames.display_frames(up_down_frame,delay=0.2)
@@ -127,6 +136,7 @@ def run():
 				game.gravite=3
 				liste_tonneau=[]
 				ennemi=Ennemi.setposition(2,ennemi)
+				Game.setscore_down(game)
 			elif game.score>Game.getscore_left(game) and game.score<Game.getscore_up(game):
 				if frame_changement_left == True:
 					Frames.display_frames(left_right_frame,delay=0.2)
@@ -136,7 +146,9 @@ def run():
 				liste_plateforme=[['____________________________________________________________',50,35,60,0,0,4,'']]
 				liste_frites=[]
 				players.y =15 #imposer la ligne du players 
+				players.x=30
 				game.gravite=2
+				Game.setscore_left(game)
 			elif game.score>Game.getscore_up(game):
 				if frame_changement_up == True:
 					Frames.display_frames(up_down_frame,delay=0.2)
@@ -186,7 +198,7 @@ def move_right():
 	
 	#gerer les frites 
 	if game.score>20: #si le score est atteint 
-		Frites.creation(liste_frites,15,50,100,11,143)
+		Frites.creation(liste_frites,15,50,100,143,11)
 		Frites.move(liste_frites,force_gravite,timeStep,-1,1)
 	#gerer les collision des frites
 		gamover,liste_frites=Frites.collision(liste_frites,liste_plateforme,players,gamover) 
@@ -218,7 +230,7 @@ def move_down():
 	#gerer les frites 
 	if game.score>Game.getscore_down(game)+20:
 		#création
-		Frites.creation (liste_frites,0,15,30,11,143)
+		Frites.creation (liste_frites,0,15,30,143,11)
 		Frites.move(liste_frites,force_gravite,timeStep,-1,1)
 		#gerer les collision des frites
 		gamover,liste_frites=Frites.collision(liste_frites,liste_plateforme,players,gamover) 
@@ -287,7 +299,7 @@ def move_up():
 	#gerer les frites 
 	if game.score>Game.getscore_up(game)+20:
 		#création
-		Frites.creation (liste_frites,0,15,30,36,143)
+		Frites.creation (liste_frites,0,15,30,10,36)
 		Frites.move(liste_frites,force_gravite,timeStep,-1,-1)
 		#gerer les collision des frites
 		gamover,liste_frites=Frites.collision(liste_frites,liste_plateforme,players,gamover) 

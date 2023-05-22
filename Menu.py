@@ -127,7 +127,5 @@ def menu_gameover(score):
 
 
 
-#test 
-if __name__=="__main__":
-   menu_gameover(500)
+
     

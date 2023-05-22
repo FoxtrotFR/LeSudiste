@@ -15,7 +15,7 @@ def create (speedmin,tempomin,tempomax,x,y):
     frite.x = x #143 pour right et down
     frite.y = y    #11 pour right et down
     frite.look = ['/','|',"\\"]
-    frite.tempo =random.randint (tempomin,tempomax) #50/100 pour le move1
+    frite.tempo =random.randint (tempomin,tempomax) #50/100 pour le move_right et left
     frite.speed = random.randint (speedmin,30)
     
     return frite
