@@ -11,7 +11,7 @@ import tty
 import termios
 import os
 
-import Frame 
+import Frames
 import Players
 import Game
 import Menu
@@ -49,9 +49,9 @@ def init():
     ennemi = Ennemi.create (144,9)
     liste_plateforme = [['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
     liste_frites=[]
-    intro=Frame.read_frames("intro.txt")
-    left_right_frame=Frame.read_frames("changement_left_right.txt")
-    up_down_frame=Frame.read_frames("changement_up_down.txt")
+    intro=Frames.read_frames("intro.txt")
+    left_right_frame=Frames.read_frames("changement_left_right.txt")
+    up_down_frame=Frames.read_frames("changement_up_down.txt")
     liste_tonneau = []
     
     
@@ -78,8 +78,8 @@ def interact():
 			players.left=0
 		elif c=='\n' : # si la touche entré est appuyée
 			game.start=1
-			Frame.display_frames(intro,delay=0.1)
-			while not Frame.get_frame_finished(intro):
+			Frames.display_frames(intro,delay=0.1)
+			while not Frames.get_frame_finished(intro):
 				 time.sleep(0.1)
 			
 		
@@ -106,7 +106,7 @@ def run():
 			interact()
 			if game.score <Game.getscore_down(game): #gravité initiale 
 				if frame_changement_right == True:
-					Frame.display_frames(left_right_frame,delay=0.2)
+					Frames.display_frames(left_right_frame,delay=0.2)
 					frame_changement_right = False
 				move_right()
 			elif int(game.score)== Game.getscore_down(game): #renitialisé le jeu 
@@ -116,7 +116,7 @@ def run():
 				game.gravite=2
 			elif game.score>Game.getscore_down(game) and game.score<Game.getscore_left(game): #changer la gravité
 				if frame_changement_down == True:
-					Frame.display_frames(up_down_frame,delay=0.2)
+					Frames.display_frames(up_down_frame,delay=0.2)
 					frame_changement_down = False
 				move_down()
 			elif int(game.score)==Game.getscore_left(game):
@@ -129,7 +129,7 @@ def run():
 				ennemi=Ennemi.setposition(2,ennemi)
 			elif game.score>Game.getscore_left(game) and game.score<Game.getscore_up(game):
 				if frame_changement_left == True:
-					Frame.display_frames(left_right_frame,delay=0.2)
+					Frames.display_frames(left_right_frame,delay=0.2)
 					frame_changement_left = False
 				move_left()
 			elif int(game.score) == Game.getscore_up(game):
@@ -139,7 +139,7 @@ def run():
 				game.gravite=2
 			elif game.score>Game.getscore_up(game):
 				if frame_changement_up == True:
-					Frame.display_frames(up_down_frame,delay=0.2)
+					Frames.display_frames(up_down_frame,delay=0.2)
 					frame_changement_up = False
 				move_up()
 			show()
