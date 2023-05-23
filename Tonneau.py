@@ -60,11 +60,9 @@ def getheight(tonneau): #renvoyer la hauteur du tonneau
 def move(tonneau,speed,dt):
     tonneau.x-=speed*dt
 
-def movedown(tonneau,speed,dt):
-    tonneau.y+=(speed*dt)/3
+def move_up_down(tonneau,speed,dt,signe):
+    tonneau.y+=(speed*dt*signe)/3
 
-def moveup(tonneau,speed,dt):
-    tonneau.y-=(speed*dt)/3
 
 def creation (liste_tonneau,game,timeStep,sens):
     if len(liste_tonneau)==0: # si la liste est vide 
@@ -83,10 +81,10 @@ def creation (liste_tonneau,game,timeStep,sens):
     liste_tonneau[derniertonneau].tempo-=1
     if sens == 1:
         for i in liste_tonneau:
-            movedown(i,game.speed,timeStep) #bouger les tonneau
+            move_up_down(i,game.speed,timeStep) #bouger les tonneau
     if sens ==2 : 
          for i in liste_tonneau:
-            moveup(i,game.speed,timeStep) #bouger les tonneau
+            move_up_down(i,game.speed,timeStep) #bouger les tonneau
     return liste_tonneau
 
 def collision (liste_tonneau,players,gamover,sens):
