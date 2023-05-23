@@ -43,6 +43,3 @@ def display_frames(frames,delay=None):
 def get_frame_finished(frames):
     return frames.finished
 
-if __name__ == "__main__":
-    frames = read_frames("intro.txt")
-    display_frames(frames,delay=5)

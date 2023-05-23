@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Apr 11 10:58:47 2023
-
+aqaqaqaqaq&<
 @author: Maxime,Clement
 """
 
@@ -25,9 +25,10 @@ def create (speed,score):
     game.start =0
     game.speed=speed
     game.score_right = 0
-    game.score_down = 10
-    game.score_left = 20
-    game.score_up = 30
+    game.score_down = 50
+    game.score_left = 100
+    game.score_up = 150
+    game.rotation = 200 #le score a partir du quel il faut changer de gravite
     
     return game
 
@@ -44,6 +45,22 @@ def getscore_left (game):
     return game.score_left
 
 def getscore_up (game):
+    return game.score_up
+
+def setscore_right(game):
+    game.score_right= game.score_right+game.rotation+game.speed
+    return game.score_right
+
+def setscore_down(game):
+    game.score_down= game.score_down+game.rotation+game.speed
+    return game.score_down
+
+def setscore_left(game):
+    game.score_left= game.score_left+game.rotation+game.speed
+    return game.score_left
+
+def setscore_up(game):
+    game.score_up= game.score_up+game.rotation+game.speed
     return game.score_up
 
 def showbackground(): #afficher le fond 

@@ -123,8 +123,7 @@ def increase_left(liste_plateforme, nbr,speed, dt):
 def reduce_right(liste_plateforme,nbr) : 
     #reduire la taille de la plateforme afin qu'elle disparaisse
     diminution = -liste_plateforme[nbr][1] #valeur de x negative (indique le depassement de cbm de carre de cette derniere)
-    if len(liste_plateforme[nbr][0])>0: #voir si inutile 
-        liste_plateforme[nbr][0]=''
+    liste_plateforme[nbr][0]=''
     liste_plateforme[nbr][3]-=diminution
     for i in range (int(liste_plateforme[nbr][3])): #regenere une plateforme de la bonne taille 
         liste_plateforme[nbr][0]=liste_plateforme[nbr][0]+'_'
