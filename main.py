@@ -149,7 +149,7 @@ def run():
 
 def show ():
 	global ennemi,players, game, menu,liste_plateforme, rows, columns
-	if int(columns) < 80 or int(rows) < 20:
+	if int(columns) < 150 or int(rows) < 50:
 		print("\033[31mMettre en Plein Ecran\033[0m")
 	else:
 		if game.start == 0 :
