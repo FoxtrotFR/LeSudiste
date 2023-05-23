@@ -2,7 +2,7 @@
 """
 Created on Tue Apr 11 10:58:47 2023
 
-@author: Maxime, Clément
+@author: Maxime
 """
 
 class Menu : pass
