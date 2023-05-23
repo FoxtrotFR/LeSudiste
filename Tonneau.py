@@ -23,19 +23,10 @@ def create (lenthplat,y):
     look.close()
     return tonneau
 
-def create_down():
+def create_up_down(y):
     tonneau=Tonneau()
     tonneau.x=random.randint(1,149)
-    tonneau.y=8
-    tonneau.tempo=random.randint(5,15)
-    look=open("tonneau.txt","r")
-    tonneau.look = look.read().splitlines()
-    look.close()
-    return tonneau
-def create_up():
-    tonneau=Tonneau()
-    tonneau.x=random.randint(1,149)
-    tonneau.y=37
+    tonneau.y=y # y=8 pour le down, 37 pour le up
     tonneau.tempo=random.randint(5,15)
     look=open("tonneau.txt","r")
     tonneau.look = look.read().splitlines()
@@ -67,16 +58,16 @@ def move_up_down(tonneau,speed,dt,signe):
 def creation (liste_tonneau,game,timeStep,sens):
     if len(liste_tonneau)==0: # si la liste est vide 
         if sens == 1:
-            tonneau= create_down()
+            tonneau= create_up_down(8)
         if sens == 2:
-            tonneau= create_up()
+            tonneau= create_up_down(37)
         liste_tonneau = listonneau(liste_tonneau,tonneau)
     derniertonneau=len(liste_tonneau)-1
     if liste_tonneau[derniertonneau].tempo==0: #baisser le tempo du dernier tonneau
         if sens == 1:
-            tonneau= create_down()
+            tonneau= create_up_down(8)
         if sens == 2:
-            tonneau= create_up()
+            tonneau= create_up_down(37)
         liste_tonneau = listonneau(liste_tonneau,tonneau)
     liste_tonneau[derniertonneau].tempo-=1
     if sens == 1:
