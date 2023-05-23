@@ -102,7 +102,7 @@ def run():
 			interact()  # Afficher le jeu à chaque itération même lorsque le menu est actif
 		else : 
 			interact()
-			if int(game.score) == Game.getscore_right(game):
+			if Game.getscore_right(game)<=int(game.score) <= Game.getscore_right(game)+5:
 				Game.getscore_up(game)
 				liste_frites=[]
 				liste_plateforme=[['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
@@ -110,6 +110,7 @@ def run():
 				players.x=40
 				players.y=10
 				game.gravite=1
+				game.score+=5 #augmenter le score de 5 pour sortir de l'intervalle
 
 			elif game.score <Game.getscore_down(game) and game.score >Game.getscore_right(game) : #gravité initiale 
 				if frame_changement_right == True:

@@ -47,19 +47,19 @@ def getscore_up (game):
     return game.score_up
 
 def setscore_right(game):
-    game.score_right= game.score_right+game.rotation+game.speed
+    game.score_right= game.score_right+game.rotation+(game.speed/10)
     return game.score_right
 
 def setscore_down(game):
-    game.score_down= game.score_down+game.rotation+game.speed
+    game.score_down= game.score_down+game.rotation+(game.speed/10)
     return game.score_down
 
 def setscore_left(game):
-    game.score_left= game.score_left+game.rotation+game.speed
+    game.score_left= game.score_left+game.rotation+(game.speed/10)
     return game.score_left
 
 def setscore_up(game):
-    game.score_up= game.score_up+game.rotation+game.speed
+    game.score_up= game.score_up+game.rotation+(game.speed/10)
     return game.score_up
 
 def showbackground(): #afficher le fond 
