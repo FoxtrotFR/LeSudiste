@@ -10,13 +10,13 @@ class Frites : pass
 import sys
 import random
 
-def create (speedmin,tempomin,tempomax,x,y):
+def create (speed_min,tempo_min,tempo_max,x,y):
     frite = Frites()
     frite.x = x #143 pour right et down
     frite.y = y    #11 pour right et down
     frite.look = ['/','|',"\\"]
-    frite.tempo =random.randint (tempomin,tempomax) #50/100 pour le move_right et left
-    frite.speed = random.randint (speedmin,30)
+    frite.tempo =random.randint (tempo_min,tempo_max) #50/100 pour le move_right et left
+    frite.speed = random.randint (speed_min,30)
     
     return frite
     
@@ -36,12 +36,12 @@ def fritliste(liste_frites,frite,etat):
     liste_frites.append([frite.look[etat],frite.x,frite.y, frite.tempo,frite.speed]) #rajout d'une frite 
     return liste_frites
 
-def creation (liste_frites,speedmin,tempomin,tempomax,x,y): 
+def creation (liste_frites,speed_min,tempo_min,tempo_max,x,y): 
     if len(liste_frites)==0: 
-        frite = create(speedmin,tempomin,tempomax,x,y)
+        frite = create(speed_min,tempo_min,tempo_max,x,y)
         liste_frites=fritliste(liste_frites,frite,0) #0 correspond à  l'état de la frite, ici en diagonal   
     elif len (liste_frites)<10 and liste_frites[len(liste_frites)-1][3]==0: #creer une frite 
-        frite = create(speedmin,tempomin,tempomax,x,y)
+        frite = create(speed_min,tempo_min,tempo_max,x,y)
         liste_frites=fritliste(liste_frites,frite,0)
     for i in range (len(liste_frites)): #gerer la tempo et le reduire si besoin 
         if liste_frites[i][3]>0:
@@ -49,8 +49,8 @@ def creation (liste_frites,speedmin,tempomin,tempomax,x,y):
     return liste_frites
 
 def collision (liste_frites,liste_plateforme,players,gamover):
-    deletefrite = 0
-    positionfrite= 0
+    delete_frite = 0
+    position_frite= 0
     for i in range (len(liste_frites)): 
 		#collision avec le palyers
         if int(liste_frites[i][2])== int(players.y) and int(liste_frites[i][1])==int(players.x)+1: #si la frite touche la tete
@@ -61,13 +61,13 @@ def collision (liste_frites,liste_plateforme,players,gamover):
                      gamover=1
 		#collision avec le sol ou le mur
         if int (liste_frites[i][2])>=41 or int(liste_frites[i][1]<=1) or int(liste_frites[i][1]>=152 or int(liste_frites[i][2])<=9) :
-            deletefrite=1
-            positionfrite=i
+            delete_frite=1
+            position_frite=i
 		#collision avec plateforme
         for c in range(len(liste_plateforme)):
              if int(liste_frites[i][2])==int(liste_plateforme[c][2]) and int (liste_plateforme[c][1])<= int(liste_frites[i][1])<= int(liste_plateforme[c][1]+len(liste_plateforme[c][0])):
-                deletefrite=1
-                positionfrite=i
-    if deletefrite==1:
-        del liste_frites[positionfrite]
+                delete_frite=1
+                position_frite=i
+    if delete_frite==1:
+        del liste_frites[position_frite]
     return gamover,liste_frites
