@@ -67,13 +67,13 @@ def interact():
 		if c == 'm':         
 			quitGame()	
 		elif c==' ' and players.plateforme == -1 and (game.gravite%2) == 1:  # si la touche entré est appuyé et le players est sur une plateforme
-			players.memoireup=11
+			Players.set_memoire_up(players,11)
 		elif c=='q' and (game.gravite%2)==0 : # si la touche q est appuyéez
-			players.left = 1
-			players.right=0
+			Players.set_left(players,1)
+			Players.set_right(players,0)
 		elif c=='d'  and (game.gravite%2) == 0: # si la touche d est appuyée 
-			players.right = 1
-			players.left=0
+			Players.set_left(players,0)
+			Players.set_right(players,1)
 		elif c=='\n' : # si la touche entré est appuyée
 			game.start=1
 			Frames.display_frames(intro,delay=0.1)

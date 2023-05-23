@@ -18,7 +18,7 @@ def create( x, y,gravite,dt):
     look = open("joueur.txt", "r")
     players.look = look.read().splitlines()
     look.close()
-    players.memoireup=0
+    players.memoire_up=0
     players.right =0
     players.left =0
     return players
@@ -48,8 +48,8 @@ def set_y(players,y):
     players.y=y
     return players
 
-def set_memoireup (players,number):
-    players.memoireup=number
+def set_memoire_up (players,number):
+    players.memoire_up=number
     return players
 
 def set_left(players,left):
@@ -78,17 +78,17 @@ def collision(players,liste_plateforme,gravite,gamover):
         if int(players.y)+3== 41 : #collision avec le sol
             gamover=1
         elif int(players.y)==8 : #collision avec le  plafond 
-            players.memoireup=0 #appliquer direct la gravité
+            players.memoire_up=0 #appliquer direct la gravité
             
         for i in liste_plateforme : #collision lorsque le player est sur la plateforme(peut sauter)
             for a in range (3):
                 if int(players.y)+3 == int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])): #ne plus appliquer la gravité au contact d'une plateforme
                     players.plateforme=-1
                 elif int(players.y)==int(i[2]) and int(i[1])<=int(players.x)+1 <= int( i[1]+len(i[0])) : #collision par dessous une plateforme impossible 
-                    players.memoireup=0 #si la tete touche
+                    players.memoire_up=0 #si la tete touche
                 for b in range (1,3): #si le corps touche
                     if int (players.y)+b==int(i[2]) and int(i[1])<=int(players.x)+a <= int( i[1]+len(i[0])) : 
-                        players.memoireup=0
+                        players.memoire_up=0
             if gravite == 1:
 		        #collision avec un tonneau
                 if i[6]==1:
@@ -108,11 +108,11 @@ def collision(players,liste_plateforme,gravite,gamover):
 
 def move(players,gravite) :
     #gerer deplacement player
-    if players.plateforme==0 and players.memoireup==0 and (gravite%2)==1: #appliquer la gravité (0 pas sur palteforme)
+    if players.plateforme==0 and players.memoire_up==0 and (gravite%2)==1: #appliquer la gravité (0 pas sur palteforme)
         up_down(players,1) 
-    elif players.memoireup!=0 and (gravite%2) == 1: #faire le saut du player
+    elif players.memoire_up!=0 and (gravite%2) == 1: #faire le saut du player
         up_down(players,-1)
-        players.memoireup-=1
+        players.memoire_up-=1
     elif players.right !=0  and (gravite%2) == 0: #bouger le players vers la droite si la touche est appuyée
         right_left(players,1)
         players.right -=1
