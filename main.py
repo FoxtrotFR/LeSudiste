@@ -102,17 +102,7 @@ def run():
 			interact()  # Afficher le jeu à chaque itération même lorsque le menu est actif
 		else : 
 			interact()
-			if Game.getscore_right(game)<=int(game.score) <= Game.getscore_right(game)+5:
-				Game.setscore_up(game)
-				liste_frites=[]
-				liste_plateforme=[['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
-				liste_tonneau=[]
-				players.x=40
-				players.y=10
-				game.gravite=1
-				game.score+=5 #augmenter le score de 5 pour sortir de l'intervalle
-
-			elif game.score <Game.getscore_down(game) and game.score >Game.getscore_right(game) : #gravité initiale 
+			if game.score <Game.getscore_down(game) and game.score >Game.getscore_right(game) : #gravité initiale 
 				if frame_changement_right == True:
 					Frames.display_frames(left_right_frame,delay=0.2)
 					frame_changement_right = False
@@ -123,7 +113,6 @@ def run():
 				liste_tonneau=[]
 				players.y =35 #imposer la ligne du players 
 				game.gravite=2
-				Game.setscore_right(game)
 			elif game.score>Game.getscore_down(game) and game.score<Game.getscore_left(game): #changer la gravité
 				if frame_changement_down == True:
 					Frames.display_frames(up_down_frame,delay=0.2)
@@ -137,7 +126,6 @@ def run():
 				game.gravite=3
 				liste_tonneau=[]
 				ennemi=Ennemi.setposition(2,ennemi)
-				Game.setscore_down(game)
 			elif game.score>Game.getscore_left(game) and game.score<Game.getscore_up(game):
 				if frame_changement_left == True:
 					Frames.display_frames(left_right_frame,delay=0.2)
@@ -147,9 +135,8 @@ def run():
 				liste_plateforme=[['____________________________________________________________',50,35,60,0,0,4,'']]
 				liste_frites=[]
 				players.y =15 #imposer la ligne du players 
-				players.x=30
-				game.gravite=2
-				Game.setscore_left(game)
+				game.gravite=4
+				players.x=10
 			elif game.score>Game.getscore_up(game):
 				if frame_changement_up == True:
 					Frames.display_frames(up_down_frame,delay=0.2)
@@ -300,7 +287,7 @@ def move_up():
 	#gerer les frites 
 	if game.score>Game.getscore_up(game)+20:
 		#création
-		Frites.creation (liste_frites,0,15,30,148,39)
+		Frites.creation (liste_frites,0,15,30,10,36)
 		Frites.move(liste_frites,force_gravite,timeStep,-1,-1)
 		#gerer les collision des frites
 		gamover,liste_frites=Frites.collision(liste_frites,liste_plateforme,players,gamover) 
