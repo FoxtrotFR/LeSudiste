@@ -138,33 +138,20 @@ def increase_right(liste_plateforme, nbr,speed, dt):
 
     return liste_plateforme[nbr]
 
-def collision_down (liste_plateforme,players,gamover):
+def collision_up_down (liste_plateforme,players,gamover,sens):
     delete = 0
     position = 0
 	#collision plateforme avec le sol 
-    for i in range(len(liste_plateforme)):
-        if int(liste_plateforme[i][2])==41:
-            delete=1
-            position = i
-    if delete==1:
-        del liste_plateforme[position]
-	#collision plateforme joueur 
-    for i in liste_plateforme:
-        for a in range (3):
-            if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+1<=int(i[1]+i[3]): #contacte avec la tete
-                gamover=1
-            for b in range(3):
-                if int(Players.get_y(players))+a==int(i[2]) and int(i[1])<=int(Players.get_x(players))+b<=int(i[1]+i[3]): #collision avce le corps 
-                    gamover=1
-    return liste_plateforme, gamover
-def collision_up (liste_plateforme,players,gamover):
-    delete = 0
-    position = 0
-	#collision plateforme avec le sol 
-    for i in range(len(liste_plateforme)):
-        if int(liste_plateforme[i][2])==9:
-            delete=1
-            position = i
+    if sens == 0:
+        for i in range(len(liste_plateforme)):
+            if int(liste_plateforme[i][2])>=41:
+                delete=1
+                position = i
+    if sens == 1:
+        for i in range(len(liste_plateforme)):
+            if int(liste_plateforme[i][2])<=9:
+                delete=1
+                position = i
     if delete==1:
         del liste_plateforme[position]
 	#collision plateforme joueur 

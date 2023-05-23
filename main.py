@@ -36,8 +36,8 @@ old_settings = termios.tcgetattr(sys.stdin)
 def init():
     global timeStep, menu, game, players, ennemi, force_gravite, liste_plateforme, liste_frites, liste_tonneau, intro,ennemi, left_right_frame, up_down_frame
     #animation=Frame.create(color=4,x=28,y=8,filename="anim.txt")
-    timeStep=0.1
-    speed = 10	
+    timeStep=0.07
+    speed = 15
     force_gravite = 10
     liste_plateforme=[]
 
@@ -234,7 +234,7 @@ def move_down():
 			del liste_tonneau[position_tonneau]
 
 	#collision plateforme 
-	liste_plateforme,gamover = Plateforme.collision_down(liste_plateforme,players,gamover)
+	liste_plateforme,gamover = Plateforme.collision_up_down(liste_plateforme,players,gamover,0)
 	if gamover==1:
 		gameover()
 
@@ -303,7 +303,7 @@ def move_up():
 			del liste_tonneau[position_tonneau]
 
 	#collision plateforme 
-	liste_plateforme,gamover = Plateforme.collision_up(liste_plateforme,players,gamover)
+	liste_plateforme,gamover = Plateforme.collision_up_down(liste_plateforme,players,gamover,1)
 	if gamover==1:
 		gameover()
 
