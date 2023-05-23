@@ -27,7 +27,6 @@ def create (speed,score):
     game.score_down = 30
     game.score_left = 60
     game.score_up = 90
-    game.rotation = 50 #le score a partir du quel il faut changer de gravite
     
     return game
 
@@ -46,21 +45,9 @@ def getscore_left (game):
 def getscore_up (game):
     return game.score_up
 
-def setscore_right(game):
-    game.score_right= game.score_right+game.rotation
-    return game.score_right
-
-def setscore_down(game):
-    game.score_down= game.score_down+game.rotation
-    return game.score_down
-
-def setscore_left(game):
-    game.score_left= game.score_left+game.rotation
-    return game.score_left
-
-def setscore_up(game):
-    game.score_up= game.score_up+game.rotation
-    return game.score_up
+def set_game_start(game,nbr):
+    game.start=nbr
+    return game
 
 def showbackground(): #afficher le fond 
 

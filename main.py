@@ -75,7 +75,7 @@ def interact():
 			Players.set_left(players,0)
 			Players.set_right(players,1)
 		elif c=='\n' : # si la touche entré est appuyée
-			game.start=1
+			Game.set_game_start(game,1)
 			Frames.display_frames(intro,delay=0.1)
 			while not Frames.get_frame_finished(intro):
 				 time.sleep(0.1)
