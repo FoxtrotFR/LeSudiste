@@ -2,7 +2,7 @@
 """
 Created on Tue Apr 11 10:00:31 2023
 
-@author: Maxime
+@author: Maxime, Clément
 """
 import sys 
 

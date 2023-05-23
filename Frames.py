@@ -2,6 +2,12 @@ import os
 import sys
 import time
 
+"""
+Created on Tue Apr 20 13:52:01 2023
+
+@author: Clément
+"""
+
 class Frames: pass
 
 def read_frames(filename, color=None):

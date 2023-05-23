@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Apr 11 10:58:47 2023
-aqaqaqaqaq&<
 @author: Maxime,Clement
 """
 
