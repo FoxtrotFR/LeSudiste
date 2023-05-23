@@ -31,6 +31,9 @@ def show(ennemi):
     
     
     
-def setposition(x,ennemi):
+def setposition_x(x,ennemi):
     ennemi.x=x
+    return ennemi
+def setposition_y(y,ennemi):
+    ennemi.y=y
     return ennemi

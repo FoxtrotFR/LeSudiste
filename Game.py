@@ -24,9 +24,9 @@ def create (speed,score):
     game.start =0
     game.speed=speed
     game.score_right = 0
-    game.score_down = 200
-    game.score_left = 500
-    game.score_up = 700
+    game.score_down = 50
+    game.score_left = 100
+    game.score_up = 150
     
     return game
 
@@ -47,6 +47,10 @@ def getscore_up (game):
 
 def set_game_start(game,nbr):
     game.start=nbr
+    return game
+
+def set_gravite(game,g):
+    game.gravite=g
     return game
 
 def showbackground(): #afficher le fond 

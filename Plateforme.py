@@ -35,25 +35,10 @@ def create_right_left (score,gravite): #ceer le type plateforme
         plateforme.ton=''
     return plateforme
 
-def create_down():
+def create_up_down(y):
     plateforme = Plateforme()
     plateforme.x = random.randint (1,152)
-    plateforme.y =10  #position en y de la plateforme 
-    plateforme.lenth = random.randint (50,70) #taille total de la plateforme 
-    while plateforme.x+plateforme.lenth >153:
-        plateforme.lenth-=2
-    plateforme.look = ''
-    for i in range (plateforme.lenth):
-        plateforme.look= plateforme.look+'_'
-    plateforme.trou=random.randint(10,20)
-    plateforme.tonneau=2
-    plateforme.ton=''
-    plateforme.taille=0
-    return plateforme 
-def create_up():
-    plateforme = Plateforme()
-    plateforme.x = random.randint (1,152)
-    plateforme.y = 40  #position en y de la plateforme 
+    plateforme.y =y  #position en y de la plateforme 
     plateforme.lenth = random.randint (50,70) #taille total de la plateforme 
     while plateforme.x+plateforme.lenth >153:
         plateforme.lenth-=2

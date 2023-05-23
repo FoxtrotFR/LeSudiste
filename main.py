@@ -111,8 +111,8 @@ def run():
 				liste_plateforme=[['____________________________________________________________',50,25,60,0,0,4,'']]
 				liste_frites=[]
 				liste_tonneau=[]
-				players.y =35 #imposer la ligne du players 
-				game.gravite=2
+				Players.set_y(players,35) 
+				Game.set_gravite(game,2)
 			elif game.score>Game.getscore_down(game) and game.score<Game.getscore_left(game): #changer la gravité
 				if frame_changement_down == True:
 					Frames.display_frames(up_down_frame,delay=0.2)
@@ -121,11 +121,11 @@ def run():
 			elif int(game.score)==Game.getscore_left(game):
 				liste_frites =[]
 				liste_plateforme = [['______________________________________________________________________',80,25,70,71,10,4,''],['______________________________________________________________________',10,35,70,71,10,4,''],['',0,38,70,0,10,4,'']]
-				players.x=140
-				players.y=10
-				game.gravite=3
+				Players.set_x(players,140)
+				Players.set_y(players,10) 
+				Game.set_gravite(game,3)
 				liste_tonneau=[]
-				ennemi=Ennemi.setposition(2,ennemi)
+				ennemi=Ennemi.setposition_x(2,ennemi)
 			elif game.score>Game.getscore_left(game) and game.score<Game.getscore_up(game):
 				if frame_changement_left == True:
 					Frames.display_frames(left_right_frame,delay=0.2)
@@ -134,9 +134,11 @@ def run():
 			elif int(game.score) == Game.getscore_up(game):
 				liste_plateforme=[['____________________________________________________________',50,35,60,0,0,4,'']]
 				liste_frites=[]
-				players.y =15 #imposer la ligne du players 
-				game.gravite=4
-				players.x=10
+				Players.set_y(players,15)  #imposer la ligne du players 
+				Game.set_gravite(game,4)
+				Players.set_x(players,10) 
+				Ennemi.setposition_x(140,ennemi)
+				Ennemi.setposition_y(37,ennemi)
 			elif game.score>Game.getscore_up(game):
 				if frame_changement_up == True:
 					Frames.display_frames(up_down_frame,delay=0.2)
@@ -210,7 +212,7 @@ def move_down():
 	#gerer appartition des plateformes
 	dernierplatef=len(liste_plateforme)-1
 	if liste_plateforme[dernierplatef][5]<=0:
-		plateforme = Plateforme.create_down()#creer les plateformes
+		plateforme = Plateforme.create_up_down(10)#creer les plateformes
 		liste_plateforme=Plateforme.listeplat(liste_plateforme,plateforme)
 	#bouger les plateformes
 	Plateforme.move_up_down(liste_plateforme,game.speed,timeStep,1)
@@ -279,7 +281,7 @@ def move_up():
 	#gerer appartition des plateformes
 	dernierplatef=len(liste_plateforme)-1
 	if liste_plateforme[dernierplatef][5]<=0:
-		plateforme = Plateforme.create_up()#creer les plateformes
+		plateforme = Plateforme.create_up_down(40)#creer les plateformes
 		liste_plateforme=Plateforme.listeplat(liste_plateforme,plateforme)
 	#bouger les plateformes
 	Plateforme.move_up_down(liste_plateforme,game.speed,timeStep,-1)
@@ -287,7 +289,7 @@ def move_up():
 	#gerer les frites 
 	if game.score>Game.getscore_up(game)+20:
 		#création
-		Frites.creation (liste_frites,0,15,30,10,36)
+		Frites.creation (liste_frites,0,15,30,145,37)
 		Frites.move(liste_frites,force_gravite,timeStep,-1,-1)
 		#gerer les collision des frites
 		gamover,liste_frites=Frites.collision(liste_frites,liste_plateforme,players,gamover) 
@@ -350,11 +352,3 @@ def quitGame():
 #les test 
 init()
 run()
-
-
-'''
-rows, columns = os.popen('stty size', 'r').read().split()
-
-    if int(columns) < 80 or int(rows) < 20:
-        print("\033[31mMettre en Plein Ecran\033[0m")
-'''
