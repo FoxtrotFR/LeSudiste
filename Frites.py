@@ -48,7 +48,7 @@ def creation (liste_frites,speedmin,tempomin,tempomax,x,y):
             liste_frites[i][3]-=1
     return liste_frites
 
-def collision (liste_frites,listeplateforme,players,gamover):
+def collision (liste_frites,liste_plateforme,players,gamover):
     deletefrite = 0
     positionfrite= 0
     for i in range (len(liste_frites)): 
@@ -64,8 +64,8 @@ def collision (liste_frites,listeplateforme,players,gamover):
             deletefrite=1
             positionfrite=i
 		#collision avec plateforme
-        for c in range(len(listeplateforme)):
-             if int(liste_frites[i][2])==int(listeplateforme[c][2]) and int (listeplateforme[c][1])<= int(liste_frites[i][1])<= int(listeplateforme[c][1]+len(listeplateforme[c][0])):
+        for c in range(len(liste_plateforme)):
+             if int(liste_frites[i][2])==int(liste_plateforme[c][2]) and int (liste_plateforme[c][1])<= int(liste_frites[i][1])<= int(liste_plateforme[c][1]+len(liste_plateforme[c][0])):
                 deletefrite=1
                 positionfrite=i
     if deletefrite==1:
