@@ -81,10 +81,10 @@ def creation (liste_tonneau,game,timeStep,sens):
     liste_tonneau[derniertonneau].tempo-=1
     if sens == 1:
         for i in liste_tonneau:
-            move_up_down(i,game.speed,timeStep) #bouger les tonneau
+            move_up_down(i,game.speed,timeStep,1) #bouger les tonneau
     if sens ==2 : 
          for i in liste_tonneau:
-            move_up_down(i,game.speed,timeStep) #bouger les tonneau
+            move_up_down(i,game.speed,timeStep,-1) #bouger les tonneau
     return liste_tonneau
 
 def collision (liste_tonneau,players,gamover,sens):
