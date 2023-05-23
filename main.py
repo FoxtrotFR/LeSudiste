@@ -103,7 +103,7 @@ def run():
 		else : 
 			interact()
 			if Game.getscore_right(game)<=int(game.score) <= Game.getscore_right(game)+5:
-				Game.getscore_up(game)
+				Game.setscore_up(game)
 				liste_frites=[]
 				liste_plateforme=[['______________________________________________________________________',10,25,70,0,10,4,''],['____________________________________________________________',90,35,60,0,0,4,'']]
 				liste_tonneau=[]
