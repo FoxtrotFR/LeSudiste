@@ -299,7 +299,7 @@ def move_up():
 	#gerer les frites 
 	if game.score>Game.getscore_up(game)+20:
 		#création
-		Frites.creation (liste_frites,0,15,30,10,36)
+		Frites.creation (liste_frites,0,15,30,148,39)
 		Frites.move(liste_frites,force_gravite,timeStep,-1,-1)
 		#gerer les collision des frites
 		gamover,liste_frites=Frites.collision(liste_frites,liste_plateforme,players,gamover) 
