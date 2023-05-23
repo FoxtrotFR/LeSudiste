@@ -89,17 +89,18 @@ def move_right_left(liste_plateforme,speed,timeStep,signe):
             if i[6]==1: #bouger le tonneau s'il y en a un
                 Tonneau.move(i[7],speed,timeStep)
 
-def move_down(liste_plateforme,speed,dt):
-    for i in liste_plateforme :
-        i[2]+=(speed/3)*dt   
-        if i[5]>0:#plateforme.trou(la tempo)
-            i[5]-=(speed/3)*dt   
+def move_up_down(liste_plateforme,speed,dt,signe):
+    if signe == 1:
+        for i in liste_plateforme :
+            i[2]+=(speed/3)*dt   
+            if i[5]>0:#plateforme.trou(la tempo)
+                i[5]-=(speed/3)*dt   
+    elif signe == -1:
+        for i in liste_plateforme :
+            i[2]-=(speed/3)*dt   
+            if i[5]>0:#plateforme.trou(la tempo)
+                i[5]-=(speed/3)*dt  
 
-def move_up(liste_plateforme,speed,dt):
-    for i in liste_plateforme :
-        i[2]-=(speed/3)*dt   
-        if i[5]>0:#plateforme.trou(la tempo)
-            i[5]-=(speed/3)*dt   
 def reduce_left(liste_plateforme,nbr):
     #reduire la taile de plateforme pour la fiare disparaitre 
     diminution = liste_plateforme[nbr][1]+liste_plateforme[nbr][3]-152

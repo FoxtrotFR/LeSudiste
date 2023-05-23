@@ -213,7 +213,7 @@ def move_down():
 		plateforme = Plateforme.create_down()#creer les plateformes
 		liste_plateforme=Plateforme.listeplat(liste_plateforme,plateforme)
 	#bouger les plateformes
-	Plateforme.move_down(liste_plateforme,game.speed,timeStep)
+	Plateforme.move_up_down(liste_plateforme,game.speed,timeStep,1)
 
 	#gerer les frites 
 	if game.score>Game.getscore_down(game)+20:
@@ -282,7 +282,7 @@ def move_up():
 		plateforme = Plateforme.create_up()#creer les plateformes
 		liste_plateforme=Plateforme.listeplat(liste_plateforme,plateforme)
 	#bouger les plateformes
-	Plateforme.move_up(liste_plateforme,game.speed,timeStep)
+	Plateforme.move_up_down(liste_plateforme,game.speed,timeStep,-1)
 
 	#gerer les frites 
 	if game.score>Game.getscore_up(game)+20:
