@@ -11,7 +11,7 @@ import Game
 import sys
 import Scoreboard
 
-scoreboard = Scoreboard.create_from_csv(csv_filename="./test.csv", score_column_number=1)
+scoreboard = Scoreboard.create_from_csv(csv_filename="./scoreboard.csv", score_column_number=1)
 
 #creer le menu
 def create ( scoreboard,regles="regles.txt"):

@@ -24,9 +24,9 @@ def create (speed,score):
     game.start =0
     game.speed=speed
     game.score_right = 0
-    game.score_down = 50
-    game.score_left = 100
-    game.score_up = 150
+    game.score_down = 500
+    game.score_left = 1000
+    game.score_up = 2000
     
     return game
 
